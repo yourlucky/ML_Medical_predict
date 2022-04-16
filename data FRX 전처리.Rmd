@@ -1,0 +1,45 @@
+---
+%title: "Health_age"
+output: html_document
+date: '2022-04-10'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo = FALSE, message = FALSE}
+## install.packages("ISLR")
+## install.packages("faraway")
+## install.packages("ggplot2")
+## install.packages("lme4")
+##install.packages("statmod")
+library(ISLR)
+#library(faraway)
+library(ggplot2)
+```
+
+```{r}
+data = read.csv("data_frx.csv")
+View(data)
+head(data)
+```
+
+```{r}
+names(data)
+colnames(data) = c("A","B","C","D","E","F","G","H","I","J",
+                   "K","L","M","N","O","P","Q","R","S","T",
+                   "U","V","W","X","Y","Z","AA","AB","AC","AD",
+                   "AE","AF","AG","AH","AI","AJ","AK","AL","AM",
+                   "AN","AO","AP","AQ","AR","AS","AT","AU","AV",
+                   "AW","AX","AY","AZ")
+linear = lm(P ~ A + B + C + D, data = data) ## linear regression
+## y = P, x = A,B,C,D
+
+summary(linear) 
+## print summary table
+
+str(data) ## check the structure of data
+cor(data$AQ, data$AR) ## correlation check
+
+```
