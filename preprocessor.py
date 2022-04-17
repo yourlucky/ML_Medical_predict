@@ -9,6 +9,7 @@ import numbers
 
 COL_CNT = 52
 FIRST_CT_COL_IDX = 41
+AVG_LIFE_EXPECTANCY = 79
 
 class Preprocessor:
     def __init__(self, path):
@@ -83,8 +84,8 @@ class Preprocessor:
         return data
     
     def predictFRS(self, _data):
-        columns = ['BMI >30', 'Sex', 'Age at CT', 'Tobacco', 'FRAX 10y Fx Prob (Orange-w/ DXA)', 'FRAX 10y Hip Fx Prob (Orange-w/ DXA)', 'Alcohol Aggregated']
-        theta = [-14.365610, 0.189781, 4.621688, 0.299326, 1.900404, -0.417014, 0.561183, 0.244718]
+        columns = ['BMI', 'BMI >30', 'Sex', 'Age at CT', 'Tobacco', 'FRAX 10y Fx Prob (Orange-w/ DXA)', 'FRAX 10y Hip Fx Prob (Orange-w/ DXA)', 'Alcohol Aggregated']
+        theta = [-1.359e-4, 2.877e-01, 5.038e+00, 2.914e-01, 1.949e+00, -1.442e-01, -0.417014, 0.561183, 0.244718]
         data = _data[columns]
         
         y_col = 'FRS 10-year risk (%)'
@@ -211,15 +212,33 @@ class Preprocessor:
                 data.at[row, col] = 0
         return data
     
-    def Death(self, _data, col):
+    def DeathBinary(self, _data, col):
         data = copy.deepcopy(_data)
-        new_col = '_'+col
+        new_col = 'binary_'+col
         data[new_col] = 0 # alive
         loc = _data[col].loc[_data[col].notnull()]
         for row in loc:
             data.at[row, new_col] = 1 # dead
         data.reset_index(drop=True, inplace=True)
-        return data 
+        return data
+    
+    def Death(self, _data, col):
+        data = copy.deepcopy(_data)
+        new_col = '_'+col
+        data[new_col] = data[col]
+        loc = _data[_data[col].isnull()].index.tolist()
+        for row in loc:
+            if data.at[row, 'Age at CT'] > AVG_LIFE_EXPECTANCY:
+                data.at[row, new_col] = data.at[row, 'Clinical F/U interval  [d from CT]'] + 85
+            else:
+                data.at[row, new_col] = (AVG_LIFE_EXPECTANCY - data.at[row, 'Age at CT']) * 365
+        data.reset_index(drop=True, inplace=True)
+        return data
+    
+    def dropColumn(self, _data, col):
+        data = _data.drop(col, axis=1)
+        data.reset_index(drop=True, inplace=True)
+        return data
     
     def Encode(self):
         data = copy.deepcopy(self.data)
@@ -248,9 +267,12 @@ class Preprocessor:
             ## Clinical outcome
             elif col == 'DEATH [d from CT]':
                 data = self.Death(data, col)
+                data = self.DeathBinary(data, col)
             ## CT Data
             elif col == 'L1_HU_BMD' or col == 'TAT Area (cm2)' or col == 'Total Body                Area EA (cm2)' or col == 'VAT Area (cm2)' or col == 'SAT Area (cm2)' or col == 'VAT/SAT     Ratio' or col == 'Muscle HU' or col == ' Muscle Area (cm2)' or col == 'L3 SMI (cm2/m2)' or col == 'AoCa        Agatston' or col == 'Liver HU    (Median)':
                 data = self.filterBlank(data, col)
+#             elif col == 'VAT Area (cm2)' or col == 'Muscle Area (cm2)':
+#                 data = self.dropColumn(data, col)
             else:
                 print('unknown column: ', col)
         data = self.predictFRS(data)
