@@ -203,10 +203,23 @@ class Preprocessor:
             data = self.remove_nan(data, i)
         return data
     
-    def filterBlank(self, _data, col):
-        data = _data.dropna(subset=[col])
+    def filterBlank(self, data, col):
+        data = data.dropna(subset=[col])
         data.reset_index(drop=True, inplace=True)
+        for row in range(0, len(data.index)):
+            if data.at[row, col] == '#DIV/0!':
+                data.at[row, col] = 0
         return data
+    
+    def Death(self, _data, col):
+        data = copy.deepcopy(_data)
+        new_col = '_'+col
+        data[new_col] = 0 # alive
+        loc = _data[col].loc[_data[col].notnull()]
+        for row in loc:
+            data.at[row, new_col] = 1 # dead
+        data.reset_index(drop=True, inplace=True)
+        return data 
     
     def Encode(self):
         data = copy.deepcopy(self.data)
@@ -232,6 +245,9 @@ class Preprocessor:
                 data[col] = self.FRAX(data[col])
             elif col == 'Met Sx':
                 data[col] = self.MetSx(data[col])
+            ## Clinical outcome
+            elif col == 'DEATH [d from CT]':
+                data = self.Death(data, col)
             ## CT Data
             elif col == 'L1_HU_BMD' or col == 'TAT Area (cm2)' or col == 'Total Body                Area EA (cm2)' or col == 'VAT Area (cm2)' or col == 'SAT Area (cm2)' or col == 'VAT/SAT     Ratio' or col == 'Muscle HU' or col == ' Muscle Area (cm2)' or col == 'L3 SMI (cm2/m2)' or col == 'AoCa        Agatston' or col == 'Liver HU    (Median)':
                 data = self.filterBlank(data, col)
@@ -246,4 +262,6 @@ if __name__ == '__main__':
     preprocessor = Preprocessor('OppScrData.csv')
     data = preprocessor.Encode()
     data.to_csv('data.csv', index=True)
-    print(data)
+#     display(data)
+
+
