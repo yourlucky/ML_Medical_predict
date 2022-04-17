@@ -1,0 +1,81 @@
+---
+%title: "Health_age"
+output: html_document
+date: '2022-04-10'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo = FALSE, message = FALSE}
+## install.packages("ISLR")
+## install.packages("faraway")
+## install.packages("ggplot2")
+## install.packages("lme4")
+##install.packages("statmod")
+library(ISLR)
+#library(faraway)
+library(ggplot2)
+```
+
+```{r}
+data = read.csv("new_frx.csv")
+#View(data)
+#head(data)
+str(data)
+```
+
+```{r}
+names(data)
+colnames(data)=c("A","B","C","D","E","F","G","H","I")
+
+#summary(linear) 
+## print summary table
+
+#str(data) ## check the structure of data
+cor(data$D, data$E,use = "complete.obs") ## correlation check
+#cor(data,use = "complete.obs")
+
+linear = lm(I ~ A + B + C + D + F + G + H, data = data) 
+options(digits = 5)
+summary(linear)
+
+linear_2 = lm(I ~ A + B + C + D + E + F + G + H, data = data) 
+summary(linear_2)
+
+
+linear_3 = lm(D ~ A + B + C + I + F + G + H, data = data) 
+summary(linear_3)
+
+linear_4 = lm(E ~ A + B + C + I + F + G + H, data = data) 
+summary(linear_3)
+
+
+```
+
+
+```{r}
+data_2 = read.csv("data_CT_1.csv")
+#View(data_2)
+#head(data_2)
+str(data_2)
+
+names(data_2)
+colnames(data_2) = c("A","B","C","D","E","F","G","H","I","J")
+
+
+cor(data_2,use = "complete.obs") 
+
+```
+<!-- colnames(data_2) = c("A","B","C","D","E","F","G","H","I","J", -->
+<!--                   "K","L","M","N","O","P","Q","R","S","T", -->
+<!--                   "U","V","W","X","Y","Z","AA","AB","AC","AD", -->
+<!--                   "AE","AF","AG","AH","AI","AJ","AK","AL","AM", -->
+<!--                   "AN","AO","AP","AQ","AR","AS","AT","AU","AV", -->
+<!--                   "AW","AX","AY","AZ","BB","BC","BD","BE","BF","BG","BH", -->
+<!--                   "BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU") -->
+
+
+
+
