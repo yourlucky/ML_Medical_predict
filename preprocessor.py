@@ -84,18 +84,19 @@ class Preprocessor:
         return data
     
     def predictFRS(self, _data):
-        columns = ['BMI', 'BMI >30', 'Sex', 'Age at CT', 'Tobacco', 'FRAX 10y Fx Prob (Orange-w/ DXA)', 'FRAX 10y Hip Fx Prob (Orange-w/ DXA)', 'Alcohol Aggregated']
-        theta = [-1.359e-4, 2.877e-01, 5.038e+00, 2.914e-01, 1.949e+00, -1.442e-01, -0.417014, 0.561183, 0.244718]
+        columns = ['BMI >30', 'Age at CT', 'FRAX 10y Fx Prob (Orange-w/ DXA)', 'Sex', 'Tobacco']
+        theta = [2.877e-01, 2.914e-01,  -1.442e-01, 5.038e+00,  1.949e+00]
         data = _data[columns]
         
         y_col = 'FRS 10-year risk (%)'
-        x = np.ones((data.to_numpy().shape[0], 1))
-        x = np.concatenate((x, data.to_numpy()), axis=1)
+        x = data.to_numpy()
+#         x = np.ones((data.to_numpy().shape[0], 1))
+#         x = np.concatenate((x, data.to_numpy()), axis=1)
         x = x.astype(np.float)
         datax = _data[y_col].str.contains('X')
         for i in range(0, len(datax)):
             if datax[i] == True:
-                y = np.dot(x[i], theta)
+                y = np.dot(x[i], theta) - 1.52e+01
                 _data.at[i, y_col] = y
         return _data
         
@@ -121,34 +122,36 @@ class Preprocessor:
         return data
     
     def predictFRAX_Fx(self, _data):
-        columns = ['BMI', 'BMI >30', 'Sex', 'Age at CT', 'Tobacco', 'FRS 10-year risk (%)', 'Alcohol Aggregated']
-        theta = [-2.674408, -0.044461, -0.157409, -0.995625, 0.164475, 0.238797, -0.149321, 0.655143]
+        columns = ['BMI', 'Age at CT','FRS 10-year risk (%)','Alcohol Aggregated', 'Sex', 'Tobacco']
+        theta = [-0.10778, 0.34435, -0.14684, 1.17095, -1.51354, 0.46751]
         data = _data[columns]
         
         y_col = 'FRAX 10y Fx Prob (Orange-w/ DXA)'
-        x = np.ones((data.to_numpy().shape[0], 1))
-        x = np.concatenate((x, data.to_numpy()), axis=1)
+        x = data.to_numpy()
+#         x = np.ones((data.to_numpy().shape[0], 1))
+#         x = np.concatenate((x, data.to_numpy()), axis=1)
         x = x.astype(np.float)
         data_ = _data[y_col].str.contains('-1')
         for i in range(0, len(data_)):
             if data_[i] == True:
-                y = np.dot(x[i], theta)
+                y = np.dot(x[i], theta) - 9.91132
                 _data.at[i, y_col] = y
         return _data
     
     def predictFRAX_Hip(self, _data):
-        columns = ['BMI', 'BMI >30', 'Sex', 'Age at CT', 'Tobacco', 'FRS 10-year risk (%)', 'Alcohol Aggregated']
-        theta = [-0.489451, 0.006229, 0.087292, 0.366385, -0.036750, -0.061535, 0.075151, -0.1969762]
+        columns = ['BMI', 'Age at CT','Alcohol Aggregated', 'Sex', 'Tobacco']
+        theta = [-0.04757,0.13513,0.38748,-0.38907,0.17181]
         data = _data[columns]
         
         y_col = 'FRAX 10y Fx Prob (Orange-w/ DXA)'
-        x = np.ones((data.to_numpy().shape[0], 1))
-        x = np.concatenate((x, data.to_numpy()), axis=1)
+        x = data.to_numpy()
+#         x = np.ones((data.to_numpy().shape[0], 1))
+#         x = np.concatenate((x, data.to_numpy()), axis=1)
         x = x.astype(np.float)
         data_ = _data[y_col].str.contains('-1')
         for i in range(0, len(data_)):
             if data_[i] == True:
-                y = np.dot(x[i], theta)
+                y = np.dot(x[i], theta) - 5.43647
                 _data.at[i, y_col] = y
         return _data
     
@@ -205,6 +208,8 @@ class Preprocessor:
         return data
     
     def filterBlank(self, data, col):
+        data[col].replace(' ', np.nan, inplace=True)
+        data.reset_index(drop=True, inplace=True)
         data = data.dropna(subset=[col])
         data.reset_index(drop=True, inplace=True)
         for row in range(0, len(data.index)):
