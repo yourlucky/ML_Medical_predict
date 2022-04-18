@@ -41,15 +41,14 @@ linear = lm(I ~ A + B + C + D + F + G + H, data = data)
 options(digits = 5)
 summary(linear)
 
-linear_2 = lm(I ~ A + B + C + D + E + F + G + H, data = data) 
-summary(linear_2)
+
 
 
 linear_3 = lm(D ~ A + B + C + I + F + G + H, data = data) 
 summary(linear_3)
 
 linear_4 = lm(E ~ A + B + C + I + F + G + H, data = data) 
-summary(linear_3)
+summary(linear_4)
 
 
 ```
