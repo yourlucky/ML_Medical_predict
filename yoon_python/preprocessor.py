@@ -6,8 +6,8 @@ import sys
 import copy
 import string
 import numbers
-
 from sklearn.cluster import KMeans, k_means
+import matplotlib.pyplot as plt
 
 COL_CNT = 52
 FIRST_CT_COL_IDX = 41
@@ -290,6 +290,7 @@ class K_mean_add_csv:
         self._data = pd.read_csv(_path)
         self.cluster_number=cluster_number
         self.x = self._data[['_DEATH [d from CT]']]
+        self._data.sort_values(by=['_DEATH [d from CT]'])
         self.y = pd.DataFrame(self.K_mean_clustering())
         self._data['cluster']= self.y     
 
@@ -298,15 +299,23 @@ class K_mean_add_csv:
         _kmean.fit(self.x)
         result_kmeans = self.x.copy()
         result_kmeans["cluster"] = _kmean.labels_
+        
         return result_kmeans["cluster"]
-
+    
 
 if __name__ == '__main__':
-    preprocessor = Preprocessor('OppScrData.csv')
-    data = preprocessor.Encode()
-    data.to_csv('data.csv', index=True)
-    #K_mean_add = K_mean_add_csv('data.csv')
-    #K_mean_add._data.to_csv('data_cluster.csv',index=True)
+    #preprocessor = Preprocessor('OppScrData.csv')
+    #data = preprocessor.Encode()
+    #data.to_csv('data.csv', index=True)
+    K_mean_add = K_mean_add_csv('data.csv')
+    K_mean_add._data.to_csv('data_cluster.csv',index=True)
+
+    #data = pd.read_csv('data_cluster.csv')
+    #_x =data['cluster']
+    #_y =data['_DEATH [d from CT]']
+
+    #plt.scatter(_x,_y)
+    #plt.show()
 
 
 #     display(data)
