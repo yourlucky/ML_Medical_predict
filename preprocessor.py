@@ -9,12 +9,14 @@ import numbers
 
 COL_CNT = 52
 FIRST_CT_COL_IDX = 41
-AVG_LIFE_EXPECTANCY = 79
 
 class Preprocessor:
-    def __init__(self, path):
+    def __init__(self, path, table_path):
         self.drop_num = 38
         self.data = self.ReadInput(path)
+	# lookup table has the life expectancy of people in sex and ages
+	# (reference: https://www.ssa.gov/oact/STATS/table4c6.html)
+        self.lookup_tab = self.ReadInput(table_path)
     
     def ReadInput(self, path):
         df = pd.read_csv(path)
@@ -227,16 +229,23 @@ class Preprocessor:
         data.reset_index(drop=True, inplace=True)
         return data
     
+    def TableLookup(self, sex, age):
+        return self.lookup_tab.at[sex, age]
+
     def Death(self, _data, col):
         data = copy.deepcopy(_data)
         new_col = '_'+col
         data[new_col] = data[col]
         loc = _data[_data[col].isnull()].index.tolist()
         for row in loc:
-            if data.at[row, 'Age at CT'] > AVG_LIFE_EXPECTANCY:
-                data.at[row, new_col] = data.at[row, 'Clinical F/U interval  [d from CT]'] + 85
+            if data.at[row, 'Sex'] == 0: ## female
+                data.at[row, new_col] = self.lookup_tab.at[data.at[row, 'Age at CT'], 'Female'] * 365
             else:
-                data.at[row, new_col] = (AVG_LIFE_EXPECTANCY - data.at[row, 'Age at CT']) * 365
+                data.at[row, new_col] = self.lookup_tab.at[data.at[row, 'Age at CT'], 'Male'] * 365
+#             if data.at[row, 'Age at CT'] > AVG_LIFE_EXPECTANCY:
+#                 data.at[row, new_col] = data.at[row, 'Clinical F/U interval  [d from CT]'] + 85
+#             else:
+#                 data.at[row, new_col] = (AVG_LIFE_EXPECTANCY - data.at[row, 'Age at CT']) * 365
         data.reset_index(drop=True, inplace=True)
         return data
     
@@ -284,11 +293,3 @@ class Preprocessor:
         data = self.predictFRAX_Fx(data)
         data = self.predictFRAX_Hip(data)
         return data
-
-if __name__ == '__main__':
-    preprocessor = Preprocessor('OppScrData.csv')
-    data = preprocessor.Encode()
-    data.to_csv('data.csv', index=True)
-#     display(data)
-
-
