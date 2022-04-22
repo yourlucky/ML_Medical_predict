@@ -310,12 +310,12 @@ if __name__ == '__main__':
     K_mean_add = K_mean_add_csv('data.csv')
     K_mean_add._data.to_csv('data_cluster.csv',index=True)
 
-    #data = pd.read_csv('data_cluster.csv')
-    #_x =data['cluster']
-    #_y =data['_DEATH [d from CT]']
+    data = pd.read_csv('data_cluster.csv')
+    _x =data['cluster']
+    _y =data['_DEATH [d from CT]']
 
-    #plt.scatter(_x,_y)
-    #plt.show()
+    plt.scatter(_x,_y)
+    plt.show()
 
 
 #     display(data)
