@@ -222,10 +222,10 @@ class Preprocessor:
     def DeathBinary(self, _data, col):
         data = copy.deepcopy(_data)
         new_col = 'binary_'+col
-        data[new_col] = 0 # alive
-        loc = _data[col].loc[_data[col].notnull()]
+        data[new_col] = 1 # dead
+        loc = _data[_data[col].isnull()].index.tolist()
         for row in loc:
-            data.at[row, new_col] = 1 # dead
+            data.at[row, new_col] = 0 # alive
         data.reset_index(drop=True, inplace=True)
         return data
     
