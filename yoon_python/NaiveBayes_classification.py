@@ -21,7 +21,7 @@ from sklearn.model_selection import cross_val_score
 
 if __name__ == '__main__':
 
-    data = pd.read_csv('data_cluster_handmade.csv')
+    data = pd.read_csv('data_cluster.csv')
     #print(data.dtypes)
 
 
@@ -50,13 +50,20 @@ if __name__ == '__main__':
     Y_gnb_score = gnb.predict_proba(X_test) #1개의 열에 각 클러스터의 7개의 확률값
     Y_gnb_pred = gnb.predict(X_test) #최종 예측 1개의 확률값
 
+    count=0
 
-    digits = load_digits()
-    print(cross_val_score(gnb, digits.data, digits.target, scoring='accuracy', cv=10).mean())
+    for i in range(0,len(Y_gnb_pred)) :
+        if Y_gnb_pred[i]==Y_test.values[i][0]:
+            count+=1
+
+
+    #digits = load_digits()
+    #print(cross_val_score(gnb, digits.data, digits.target, scoring='accuracy', cv=10).mean())
 
     #fpr_gnb, tpr_gnb, thresholds_gnb = roc_curve(Y_test, Y_gnb_score[:, 1])
 
+    print("accuaracy : ", count/len(Y_gnb_pred))
+
  
-    print("==============")
 
     

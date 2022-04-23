@@ -30,7 +30,10 @@ if __name__ == '__main__':
 
     columns = ['L1_HU_BMD','Total Body                Area EA (cm2)','SAT Area (cm2)','VAT/SAT     Ratio','Muscle HU','L3 SMI (cm2/m2)','AoCa        Agatston','Liver HU    (Median)']
     #y_columns = ['cluster']
-    y_columns = ['_DEATH [d from CT]']
+    #y_columns = ['_DEATH [d from CT]']
+
+    y_columns = ['Age at CT']
+
 
     
     #death_day = ['_DEATH [d from CT]']
@@ -42,7 +45,7 @@ if __name__ == '__main__':
 
     #https://www.springboard.com/blog/data-analytics/naive-bayes-classification/
 
-    X_train, X_test, Y_train, Y_test = train_test_split(_x, _y, test_size=0.05)
+    X_train, X_test, Y_train, Y_test = train_test_split(_x, _y, test_size=0.25)
     Y_test.reset_index(drop=True,inplace=True)
 
     knn_reg = KNeighborsRegressor(n_neighbors=10)
@@ -69,11 +72,8 @@ if __name__ == '__main__':
     #print(Y_test.shape)
     
     for i in range(0,len(Y_knn_reg_pred)) :
-        if abs(Y_knn_reg_pred[i]-Y_test.values[i][0])<=365*3 :
+        if abs(Y_knn_reg_pred[i]-Y_test.values[i][0])<=3 :
             count+=1
-
-
-
 
     # for ind,_value in X_test.iterrows():
     #     row_v=_value
@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
 
 
-    digits = load_digits()
+    #digits = load_digits()
     #print(cross_val_score(knn_reg, digits.data, digits.target, scoring='accuracy', cv=10).mean())
 
     #fpr_gnb, tpr_gnb, thresholds_gnb = roc_curve(Y_test, Y_gnb_score[:, 1])
