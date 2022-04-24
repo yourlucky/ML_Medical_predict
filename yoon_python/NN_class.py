@@ -1,23 +1,13 @@
 import numpy as np
 import pandas as pd
-import math
-import time
-import sys
-import copy
 
-from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
-from sklearn.naive_bayes import GaussianNB
-from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
-from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
+from sklearn.neural_network import MLPClassifier, MLPRegressor
+from sklearn import preprocessing
 
-import sys
-sys.path.insert(0,'/Users/yoon/Documents/lecture_note/760/medical_project/')
-
-from preprocessor import Preprocessor
 
 def Cluster(_x,cluster_number=7) :
     cluster_calculater= Cluster_made(_x,cluster_number)
@@ -28,6 +18,7 @@ def Cluster(_x,cluster_number=7) :
     for i in range(0,len(_x)):
         _y[i]=cluster_dict[_x[i]]
     return _y
+
 
 class Cluster_made:
     def __init__(self, _data,cluster_number=7):
@@ -56,24 +47,18 @@ class Cluster_made:
         for i in range(0, len(self._data)):
             self.group_dict[self._data[i]]=self.group[i]
 
-
 if __name__ == '__main__':
 
-    #_data = Preprocessor('OppScrData.csv','ssa_life_expectancy.csv')
-    #data = _data.Encode()
-    #data.to_csv('/Users/yoon/Documents/lecture_note/760/medical_project/yoon_python/data_apr.csv', index=True)
     _data = pd.read_csv('/Users/yoon/Documents/lecture_note/760/medical_project/yoon_python/data_apr.csv')
     d_data = np.array((_data['_DEATH [d from CT]']))
     grouping = Cluster(d_data,7)
     data_group = pd.DataFrame({'Group': grouping}) 
-    #unique, counts = np.unique(grouping, return_counts=True)
-    #print(np.asarray((unique, counts)).T)
 
     _data=pd.concat([_data,data_group],axis=1)
- 
+
     columns = ['L1_HU_BMD','Total Body                Area EA (cm2)','SAT Area (cm2)','VAT/SAT     Ratio','Muscle HU','L3 SMI (cm2/m2)','AoCa        Agatston','Liver HU    (Median)']
-    #y_columns = ['Age at CT']
-    y_columns = ['Group']
+    y_columns = ['binary_DEATH [d from CT]']
+    #y_columns = ['_DEATH [d from CT]']
 
     _x = _data[columns]
     _y = _data[y_columns]
@@ -81,25 +66,26 @@ if __name__ == '__main__':
     X_train, X_test, Y_train, Y_test = train_test_split(_x, _y, test_size=0.25)
     Y_test.reset_index(drop=True,inplace=True)
 
-    #Model = KNeighborsRegressor(n_neighbors=10)
-    Model = KNeighborsClassifier(n_neighbors=50)
-    #Model = GaussianNB()
+    Model =MLPClassifier(solver='sgd', hidden_layer_sizes=4,
+                            learning_rate_init=0.2, max_iter=100,
+                            power_t=0.25, warm_start=True)
     
-    Model.fit(X_train.values, Y_train.values.ravel())
-    Predict_value = Model.predict(X_test) #최종 예측 1개의 확률값
-    print(Predict_value)
 
+    scaler = preprocessing.StandardScaler().fit(X_train)
+    X_train = scaler.transform(X_train)
+
+    scaler = preprocessing.StandardScaler().fit(X_test)
+    X_test = scaler.transform(X_test)
+ 
+ 
+    Model.fit(X_train, Y_train.values.ravel())
+    Predict_value = Model.predict(X_test) #최종 예측 1개의 확률값
+ 
     count=0    
     for i in range(0,len(Predict_value)) :
-        if Predict_value[i]==Y_test.values[i][0]:
+        if Predict_value[i]==Y_test.values[i][0] :
             count+=1
 
-
     print("y : {}, Model :{}, accuaracy : {:.2f}%".format(y_columns, Model ,count/len(Predict_value)*100))
-    
-    #_x = _data['Group']
-    #_y = _data['_DEATH [d from CT]']
-    
-    #plt.scatter(_x,_y)
-    #plt.show() 
-   
+
+
