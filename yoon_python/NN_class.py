@@ -74,7 +74,6 @@ if __name__ == '__main__':
     scaler = preprocessing.StandardScaler().fit(X_train)
     X_train = scaler.transform(X_train)
 
-    scaler = preprocessing.StandardScaler().fit(X_test)
     X_test = scaler.transform(X_test)
  
  
