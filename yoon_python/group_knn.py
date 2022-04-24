@@ -16,10 +16,8 @@ from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
 import sys
 sys.path.insert(0,'/Users/yoon/Documents/lecture_note/760/medical_project/')
-#from preprocessor import Preprocessor
 
 from preprocessor import Preprocessor
-
 
 def Cluster(_x,cluster_number=7) :
     cluster_calculater= Cluster_made(_x,cluster_number)
@@ -70,6 +68,8 @@ if __name__ == '__main__':
     data_group = pd.DataFrame({'Group': grouping}) 
     #unique, counts = np.unique(grouping, return_counts=True)
     #print(np.asarray((unique, counts)).T)
+
+    print(data_group)
     _data=pd.concat([_data,data_group],axis=1)
  
     columns = ['L1_HU_BMD','Total Body                Area EA (cm2)','SAT Area (cm2)','VAT/SAT     Ratio','Muscle HU','L3 SMI (cm2/m2)','AoCa        Agatston','Liver HU    (Median)']
@@ -91,11 +91,15 @@ if __name__ == '__main__':
 
     count=0    
     for i in range(0,len(Predict_value)) :
-        if abs(Predict_value[i]-Y_test.values[i][0])<1 :
+        if Predict_value[i]==Y_test.values[i][0]:
             count+=1
 
 
     print("y : {}, Model :{}, accuaracy : {:.2f}%".format(y_columns, Model ,count/len(Predict_value)*100))
+    
+    #_x = _data['Group']
+    #_y = _data['_DEATH [d from CT]']
+    
     #plt.scatter(_x,_y)
     #plt.show() 
    
