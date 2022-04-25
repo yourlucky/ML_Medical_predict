@@ -1,0 +1,71 @@
+---
+%title: "Health_age"
+output: html_document
+date: '2022-04-10'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo = FALSE, message = FALSE}
+## install.packages("ISLR")
+## install.packages("faraway")
+## install.packages("ggplot2")
+## install.packages("lme4")
+##install.packages("statmod")
+library(ISLR)
+#library(faraway)
+library(ggplot2)
+##multiple line comment :(drag) cmd+shift+c
+```
+
+```{r}
+# data_2 = read.csv("1_only_clinical.csv")
+# str(data_2)
+# 
+# names(data_2)
+# colnames(data_2) = c("A","B","C","D","E","F","G","H","I","J","K")
+# 
+# cor(data_2,use = "complete.obs") 
+# 
+# linear = lm(K ~ A + B + C + D + E +F + G + H + J, data = data_2) 
+# options(digits = 5)
+# summary(linear)
+
+
+
+#linear = lm(I ~ A + B + C + D + F + G + H, data = data) 
+#options(digits = 5)
+#summary(linear)
+
+# colnames(data_2) = c("A","B","C","D","E","F","G","H","I","J",
+#                    "K","L","M","N","O","P","Q","R","S","T",
+#                    "U","V","W","X","Y","Z","AA","AB","AC","AD",
+#                    "AE","AF","AG","AH","AI","AJ","AK","AL","AM",
+#                    "AN","AO","AP","AQ","AR","AS","AT","AU","AV",
+#                    "AW","AX","AY","AZ","BB","BC","BD","BE","BF","BG","BH",
+#                    "BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU")
+```
+
+```{r}
+data_3 = read.csv("2_clinical_CT.csv")
+str(data_3)
+
+names(data_3)
+colnames(data_3) = c("A","B","C","D","E","F","G","H","I","J","K",
+                     "L","M","N","O","P","Q","R")
+
+cor(data_3,use = "complete.obs")
+
+linear = lm(R ~ A + C + D + F + G + H + I +J + K + L + N + P , data = data_3)
+options(digits = 5)
+summary(linear)
+
+
+
+linear = lm(I ~ A + B + C + D + F + G + H, data = data)
+options(digits = 5)
+summary(linear)
+
+```

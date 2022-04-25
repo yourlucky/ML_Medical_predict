@@ -27,6 +27,7 @@ str(data)
 ```
 
 ```{r}
+
 names(data)
 colnames(data)=c("A","B","C","D","E","F","G","H","I")
 
@@ -55,26 +56,27 @@ summary(linear_4)
 
 
 ```{r}
-data_2 = read.csv("data_CT_1.csv")
-#View(data_2)
-#head(data_2)
+data_2 = read.csv("OppScrData.csv")
+View(data_2)
+head(data_2)
 str(data_2)
 
 names(data_2)
-colnames(data_2) = c("A","B","C","D","E","F","G","H","I","J")
+
+colnames(data_2) = c("A","B","C","D","E","F","G","H","I","J",
+                   "K","L","M","N","O","P","Q","R","S","T",
+                   "U","V","W","X","Y","Z","AA","AB","AC","AD",
+                   "AE","AF","AG","AH","AI","AJ","AK","AL","AM",
+                   "AN","AO","AP","AQ","AR","AS","AT","AU","AV",
+                   "AW","AX","AY","AZ","BB","BC","BD","BE","BF","BG","BH",
+                   "BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU")
 
 
-cor(data_2,use = "complete.obs") 
-
-```
-<!-- colnames(data_2) = c("A","B","C","D","E","F","G","H","I","J", -->
-<!--                   "K","L","M","N","O","P","Q","R","S","T", -->
-<!--                   "U","V","W","X","Y","Z","AA","AB","AC","AD", -->
-<!--                   "AE","AF","AG","AH","AI","AJ","AK","AL","AM", -->
-<!--                   "AN","AO","AP","AQ","AR","AS","AT","AU","AV", -->
-<!--                   "AW","AX","AY","AZ","BB","BC","BD","BE","BF","BG","BH", -->
-<!--                   "BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU") -->
+cor(data_2$D, data_2$E,use = "complete.obs") 
 
 
+#linear = lm(I ~ A + B + C + D + F + G + H, data = data) 
+#options(digits = 5)
+#summary(linear)
 
 
