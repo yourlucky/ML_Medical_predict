@@ -24,9 +24,13 @@ class Preprocessor:
     
     def BMI(self, _data):
         data = copy.deepcopy(_data)
+        loc = data.isnull().index.tolist()
+        for row in loc:
+            data[row] = _data.mean()
+        data.reset_index(drop=True, inplace=True)
         for i in range(0, len(data)):
             if not data[i]:
-                data[i] = data.mean()
+                data[i] = _data.mean()
         return data
     
     def BMIrange(self, _data):

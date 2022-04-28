@@ -1,2 +1,2 @@
 all:
-	python main.py preprocessor.py linear_regression.py knn_regression.py
+	python src/main.py src/regressor.py src/classifier.py

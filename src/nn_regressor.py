@@ -3,14 +3,16 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.preprocessing import StandardScaler
 import copy
 
-class NnRegressor:
+class nnRegressor:
     def __init__(self, data, x_col, y_col, margin, size):
-        self.data = copy.deepcopy(data)
         self.x = self.data[x_col]
         self.y = self.data[y_col]
         self.margin = margin
         self.size = size
         self.regressor = MLPRegressor(hidden_layer_sizes=(len(x_col), len(x_col), len(x_col)), max_iter=8000)
+        self.scaler = StandardScaler()
+        self.scaler.fit(data[self.x])
+        
 
     def runTest(self):
         x_train, x_test, y_train, y_test = train_test_split(self.x, self.y, test_size=self.size)
@@ -29,3 +31,11 @@ class NnRegressor:
             if abs(y_pred[i] - y_test[i]) <= self.margin:
                 correct += 1
         print("Prediction accuracy for testing data: ", correct / len(y_test) * 100, "%\n")
+
+    def fit(self):
+        self.scaler.fit(self.x)
+        self.regressor.fit(self.x, self.y)
+
+    def predict(self, x):
+        _x = self.scaler.transform(x)
+        return self.regressor.predict(_x)

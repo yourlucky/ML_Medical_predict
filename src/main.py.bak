@@ -1,0 +1,114 @@
+from preprocessor import Preprocessor
+from linear_regression import linearRegression
+from knn_regression import knnRegression
+from cluster import Cluster
+from nn_regressor import NnRegressor
+from nn_classifier import nnClassifier
+
+MARGIN = 365*5
+CLUSTER_NUM = 7
+TEST_SIZE = 0.25
+
+def runPreprocessor(path, table_path):
+    preprocessor = Preprocessor(path, table_path)
+    data = preprocessor.Encode()
+    return data
+
+def runCluster(data, x_col, y_col):
+    print('Running Clustering...')
+    cluster = Cluster(data, x_col, y_col, CLUSTER_NUM, TEST_SIZE)
+    cluster.runTest()
+
+def runNNCluster(data, x_col, y_col):
+    print('Running NNClustering...')
+    cluster = nnClassifier(data, x_col, y_col, CLUSTER_NUM, TEST_SIZE)
+    cluster.runTest()
+    
+def runLinearRegression(data, x_col, y_col):
+    print('Running LinearRegression...')
+    regressor = linearRegression(data, x_col, y_col, MARGIN, TEST_SIZE)
+    regressor.runTest()
+
+def runKNNRegression(data, x_col, y_col):
+    print('Running KNNRegression...')
+    regressor = knnRegression(data, x_col, y_col, MARGIN, TEST_SIZE)
+    regressor.runTest()
+
+def runNNRegression(data, x_col, y_col):
+    print('Running NNRegression...')
+    regressor = NnRegressor(data, x_col, y_col, MARGIN, TEST_SIZE)
+    regressor.runTest()
+    
+def runAliveTest(data, x_col, y_col):
+    y_col_bin = 'binary'+y_col
+    _data = data[data[y_col_bin] == 0]
+    print('-------- Test for alive data ---------------')
+    runLinearRegression(_data, x_col, y_col)
+    runKNNRegression(_data, x_col, y_col)
+    runNNRegression(_data, x_col, y_col)
+
+def runDeadTest(data, x_col, y_col):
+    y_col_bin = 'binary'+y_col
+    _data = data[data[y_col_bin] == 1]
+    print('-------- Test for dead data ---------------')
+    runLinearRegression(_data, x_col, y_col)
+    runKNNRegression(_data, x_col, y_col)
+    runNNRegression(_data, x_col, y_col)
+
+def runAggregatedTest(data, x_col, y_col):
+    print('-------- Test for aggregated data ---------------')
+    runLinearRegression(data, x_col, y_col)
+    runKNNRegression(data, x_col, y_col)
+    runNNRegression(data, x_col, y_col)
+    
+def runClusterAloneTest(data, x_col, y_col):
+    print('-------- Test for data clustering ---------------')
+    runCluster(data, x_col, y_col)
+    runNNCluster(data, x_col, y_col)
+
+def predictionResult(pred_ret, actual_ret):
+    if abs(pred_ret - actual_ret) <= MARGIN:
+        return 1
+    else:
+        return 0
+    
+def runRegressionTest(data, x_col, y_col):
+    lin_reg = linearRegression(data, x_col, y_col, MARGIN, TEST_SIZE)
+    knn_reg = knnRegression(data, x_col, y_col, MARGIN, TEST_SIZE)
+
+    lin_ret = 0
+    lin_reg.fit()
+        
+    knn_reg.fit()
+    
+    
+def _runClusterTest(data, x_col, y_col, cluster_column):
+    cluster = Cluster(data, x_col, cluster_column, CLUSTER_NUM, TEST_SIZE)
+    cluster.fit()
+    cluster_data = cluster.setGroup(data, cluster_column)
+
+    knn_group_pred = cluster.predKNN(data[x_col])
+    bayes_group_pred = cluster.predBayes(data[x_col])
+
+    for i in range(0, CLUSTER_NUM):
+        _cluster_data = cluster_data[cluster_data[cluster_column] == i]
+        runAliveTest(_knn_data, x_col, y_col)
+        runDeadTest(_knn_data, x_col, y_col)
+        runAggregatedTest(_knn_data, x_col, y_col)
+
+        _bayes_data = bayes_data[bayes_data[cluster_column] == i]
+        runAliveTest(_bayes_data, x_col, y_col)
+        runDeadTest(_bayes_data, x_col, y_col)
+        runAggregatedTest(_bayes_data, x_col, y_col)
+
+                 
+if __name__ == '__main__':
+    data = runPreprocessor('OppScrData.csv', 'ssa_life_expectancy.csv')
+    x_col = ['L1_HU_BMD', 'Total Body                Area EA (cm2)', 'SAT Area (cm2)', 'VAT/SAT     Ratio', 'Muscle HU', 'L3 SMI (cm2/m2)', 'AoCa        Agatston', 'Liver HU    (Median)']
+    y_col = '_DEATH [d from CT]'
+
+    _y_col = 'Group'
+    runAliveTest(data, x_col, y_col)
+    runDeadTest(data, x_col, y_col)
+    runAggregatedTest(data, x_col, y_col)
+    runClusterTest(data, x_col, _y_col)
