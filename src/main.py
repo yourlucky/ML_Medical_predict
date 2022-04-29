@@ -576,9 +576,10 @@ def Classification(data, x_col, y_col):
     ClassifierTestBalancedMix(data, x_col, cluster_col, death_col)
 
     ## Only with dead data
+    print('******* Using only dead data **********')
 #    _data = data[data[death_col] == DEAD]
 #    DeathTest(_data, x_col, death_col)
-#    ClassifierTestRandomMix(_data, x_col, death_col)
+    ClassifierTestRandomMix(_data, x_col, death_col)
     print('\n')
 
     
@@ -621,14 +622,18 @@ if __name__ == '__main__':
     print('Training with CT data ***********************************************************************************************************')
     ## test classification accuracy (Alive/Dead, Clustering)
     #### with original data
+    print('** With original data ***********************************************************************************************************')
     Classification(data, CT_col, y_col)
     #### with augmented data
+    print('** With augmented data ***********************************************************************************************************')
     Classification(_data, CT_col, y_col)
 
     # test Clinical outcome accuracy (regressor, classifier + regressor)
     ## with original data
+    print('** With original data ***********************************************************************************************************')
     ClinicalOutcome(data, CT_col, y_col)
     ## with augmented data
+    print('** With augmented data ***********************************************************************************************************')
     ClinicalOutcome(_data, CT_col, y_col)
 
 

@@ -1,0 +1,981 @@
+python src/main.py src/regressor.py src/classifier.py
+unknown column:  Record ID
+unknown column:  Visit ID
+unknown column:  PT ID
+unknown column:  Clinical F/U interval  [d from CT]
+unknown column:  Age at CT
+unknown column:  CLINICAL OUTCOMES
+unknown column:  CVD DX
+unknown column:  CVD DX Date [d from CT]
+unknown column:  Heart failure DX
+unknown column:  Heart failure DX Date [d from CT]
+unknown column:  MI DX
+unknown column:  MI DX Date [d from CT]
+unknown column:  Type 2 Diabetes DX
+unknown column:  Type 2 Diabetes DX Date [d from CT]
+unknown column:  Femoral neck fracture DX
+unknown column:  Femoral neck fracture DX Date [d from CT]
+unknown column:  Unspec femoral fracture DX
+unknown column:  Unspec femoral fracture DX Date [d from CT]
+unknown column:  Forearm fracture DX
+unknown column:  Forearm fracture DX Date [d from CT]
+unknown column:  Humerus fracture DX
+unknown column:  Humerus fracture DX Date [d from CT]
+unknown column:  Pathologic fracture DX
+unknown column:  Pathologic fracture DX Date [d from CT]
+unknown column:  Alzheimers DX
+unknown column:  Alzheimers DX Date [d from CT]
+unknown column:  Primary Cancer Site
+unknown column:  Primary Cancer Dx [d from CT]
+unknown column:  Primary Cancer Site 2
+unknown column:  Primary Cancer Site 2 Dx [d from CT]
+unknown column:  AUTO-CT VALUES
+
+
+
+Training with CT data ***********************************************************************************************************
+** With original data ***********************************************************************************************************
+************************************** Running Goal: Classification **************************************
+******* Random mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  93.15006759801713 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  92.56421811626859 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  93.46552501126634 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  93.73591707976566 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  99.22854387656702 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  96.52844744455159 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  99.66248794599807 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  99.32497589199615 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  6.206896551724138 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  35.86206896551724 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  0.0 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  25.517241379310345 %
+  ---------------------------- [Cluster] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 	Accuracy:  93.28526363226679 %
+  Running  bayesClassifier  to predict [Cluster] ... 	Accuracy:  91.93330328977017 %
+  Running  svmClassifier  to predict [Cluster] ... 	Accuracy:  94.6372239747634 %
+  Running  nnClassifier  to predict [Cluster] ... 	Accuracy:  94.6372239747634 %
+******* Balanced mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  63.60544217687075 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  73.12925170068027 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  74.14965986394559 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  75.17006802721087 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  80.27210884353741 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  88.43537414965986 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  63.94557823129252 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  79.59183673469387 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  46.93877551020408 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  57.82312925170068 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  55.78231292517006 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  75.51020408163265 %
+  ---------------------------- [Cluster] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 	Accuracy:  56.80272108843537 %
+  Running  bayesClassifier  to predict [Cluster] ... 	Accuracy:  64.28571428571429 %
+  Running  svmClassifier  to predict [Cluster] ... 	Accuracy:  61.224489795918366 %
+  Running  nnClassifier  to predict [Cluster] ... 	Accuracy:  64.28571428571429 %
+******* Using only dead data **********
+  ---------------------------- [Cluster] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 	Accuracy:  92.29382604776927 %
+  Running  bayesClassifier  to predict [Cluster] ... 	Accuracy:  92.02343397926994 %
+  Running  svmClassifier  to predict [Cluster] ... 	Accuracy:  93.78098242451554 %
+  Running  nnClassifier  to predict [Cluster] ... 	Accuracy:  93.78098242451554 %
+
+
+** With augmented data ***********************************************************************************************************
+************************************** Running Goal: Classification **************************************
+******* Random mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  92.24876070301939 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  91.66291122127083 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  92.29382604776927 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  92.92474087426768 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  99.560546875 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  96.826171875 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  99.21875 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  99.365234375 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  4.678362573099415 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  29.82456140350877 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  2.3391812865497075 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  12.865497076023392 %
+  ---------------------------- [Cluster] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 	Accuracy:  92.56421811626859 %
+  Running  bayesClassifier  to predict [Cluster] ... 	Accuracy:  90.85173501577287 %
+  Running  svmClassifier  to predict [Cluster] ... 	Accuracy:  93.73591707976566 %
+  Running  nnClassifier  to predict [Cluster] ... 	Accuracy:  93.64578639026588 %
+******* Balanced mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  64.28571428571429 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  72.44897959183673 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  71.7687074829932 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  72.44897959183673 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  86.98630136986301 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  91.0958904109589 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  56.16438356164384 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  75.34246575342466 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  41.891891891891895 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  54.054054054054056 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  59.45945945945946 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  72.2972972972973 %
+  ---------------------------- [Cluster] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 	Accuracy:  59.863945578231295 %
+  Running  bayesClassifier  to predict [Cluster] ... 	Accuracy:  66.66666666666666 %
+  Running  svmClassifier  to predict [Cluster] ... 	Accuracy:  63.94557823129252 %
+  Running  nnClassifier  to predict [Cluster] ... 	Accuracy:  67.00680272108843 %
+******* Using only dead data **********
+  ---------------------------- [Cluster] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 	Accuracy:  93.82604776926543 %
+  Running  bayesClassifier  to predict [Cluster] ... 	Accuracy:  92.8796755295178 %
+  Running  svmClassifier  to predict [Cluster] ... 	Accuracy:  94.50202794051374 %
+  Running  nnClassifier  to predict [Cluster] ... 	Accuracy:  94.54709328526363 %
+
+
+** With original data ***********************************************************************************************************
+************************************** Running Goal: Clinical outcome (death) **************************************
+******* Random mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.326273095989184 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.317710680486706 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.8670572329878325 %
+
+..... testset only includes alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.56754130223518 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.733722060252672 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.199222546161321 %
+
+..... testset only includes dead data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.2422360248447204 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  0.0 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  0.6211180124223602 %
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.8670572329878325 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.8670572329878325 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.137449301487156 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.912122577737719 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.002253267237494 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.912122577737719 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.8670572329878325 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.8670572329878325 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.092383956737269 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.9571879224876065 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.047318611987381 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.58810274898603 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.1640926640926645 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.212355212355212 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.7915057915057915 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.019305019305019 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.1640926640926645 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.777992277992278 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.212355212355212 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.260617760617761 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.72972972972973 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.212355212355212 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.260617760617761 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.212355212355212 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  0.6802721088435374 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  0.0 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  0.6802721088435374 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.4013605442176873 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.081632653061225 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.4013605442176873 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.0408163265306123 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.3605442176870748 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  0.6802721088435374 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  0.6802721088435374 %
+******* Balanced mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  1.0204081632653061 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+
+..... testset only includes alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.1446540880503147 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  0.628930817610063 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  3.1446540880503147 %
+
+..... testset only includes dead data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.2222222222222223 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  1.4814814814814816 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.9259259259259265 %
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.0408163265306123 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.1020408163265305 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  3.741496598639456 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.4013605442176873 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.421768707482993 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.761904761904762 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.4013605442176873 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.1020408163265305 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.421768707482993 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.4013605442176873 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.782312925170068 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  6.802721088435375 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  0.6896551724137931 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  6.206896551724138 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  6.206896551724138 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.0689655172413794 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  6.206896551724138 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.0689655172413794 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.3793103448275863 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.517241379310345 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  7.586206896551724 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.3793103448275863 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  6.206896551724138 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  3.4482758620689653 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.3557046979865772 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.026845637583892 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  3.3557046979865772 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.697986577181208 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.684563758389262 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.026845637583892 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  6.0402684563758395 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.026845637583892 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.684563758389262 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  6.7114093959731544 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.369127516778524 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.026845637583892 %
+******* Using only dead data **********
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.761904761904762 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  8.16326530612245 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+  ---------------------------- [Cluster + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  6.122448979591836 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.442176870748299 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.081632653061225 %
+  Running  bayesClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  6.802721088435375 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  8.16326530612245 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.442176870748299 %
+  Running  svmClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.4013605442176873 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  3.4013605442176873 %
+  Running  nnClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.442176870748299 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  6.122448979591836 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  6.802721088435375 %
+
+
+** With augmented data ***********************************************************************************************************
+************************************** Running Goal: Clinical outcome (death) **************************************
+******* Random mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.686795853988283 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.9657503379900856 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.686795853988283 %
+
+..... testset only includes alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.9638554216867465 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.240963855421686 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.879518072289157 %
+
+..... testset only includes dead data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  0.6944444444444444 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  0.0 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  0.0 %
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.047318611987381 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.4529067147363675 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.137449301487156 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.092383956737269 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.4529067147363675 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.182514646237044 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.047318611987381 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.4529067147363675 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.5515998197386205 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.092383956737269 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.4529067147363675 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.58810274898603 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.387205387205387 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.82010582010582 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.435305435305436 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.339105339105339 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.627705627705628 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.675805675805676 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.387205387205387 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.82010582010582 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  6.012506012506012 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  5.387205387205387 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.82010582010582 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.242905242905243 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  0.0 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  0.0 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  0.7142857142857143 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.4285714285714286 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.857142857142857 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.142857142857143 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  0.0 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  0.7142857142857143 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  0.7142857142857143 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  0.7142857142857143 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  1.4285714285714286 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  1.4285714285714286 %
+******* Balanced mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.7006802721088436 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.0408163265306123 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.421768707482993 %
+
+..... testset only includes alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  0.6802721088435374 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.0408163265306123 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+
+..... testset only includes dead data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.0408163265306123 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.0408163265306123 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.0408163265306123 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.421768707482993 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  6.122448979591836 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.0408163265306123 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.081632653061225 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.081632653061225 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.0408163265306123 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.081632653061225 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.782312925170068 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.2269938650306749 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.6809815950920246 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  3.067484662576687 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.2269938650306749 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.6809815950920246 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  3.067484662576687 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.2269938650306749 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.6809815950920246 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.294478527607362 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.2269938650306749 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.067484662576687 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  3.6809815950920246 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.0534351145038165 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  1.5267175572519083 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  1.5267175572519083 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.0534351145038165 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.343511450381679 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.2900763358778624 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.0534351145038165 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.343511450381679 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.580152671755725 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.0534351145038165 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.343511450381679 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  6.106870229007633 %
+******* Using only dead data **********
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.4013605442176873 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  9.523809523809524 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.761904761904762 %
+  ---------------------------- [Cluster + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.0408163265306123 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.4013605442176873 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+  Running  bayesClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  6.122448979591836 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  8.843537414965986 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  8.843537414965986 %
+  Running  svmClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.081632653061225 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  6.122448979591836 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  6.802721088435375 %
+  Running  nnClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.761904761904762 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  6.802721088435375 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.081632653061225 %
+
+
+Training with Clinical + CT data ***********************************************************************************************************
+** With original data ***********************************************************************************************************
+************************************** Running Goal: Classification **************************************
+******* Random mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  93.55565570076611 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  91.88823794502028 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  93.42045966651645 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  93.69085173501577 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  99.42112879884226 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  95.61022672455378 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  99.32465026531597 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  99.61408586589484 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  10.273972602739725 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  39.04109589041096 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  2.054794520547945 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  10.95890410958904 %
+  ---------------------------- [Cluster] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 	Accuracy:  93.10500225326723 %
+  Running  bayesClassifier  to predict [Cluster] ... 	Accuracy:  90.76160432627309 %
+  Running  svmClassifier  to predict [Cluster] ... 	Accuracy:  94.6372239747634 %
+  Running  nnClassifier  to predict [Cluster] ... 	Accuracy:  94.00630914826499 %
+******* Balanced mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  62.925170068027214 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  72.10884353741497 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  69.04761904761905 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  76.19047619047619 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  77.27272727272727 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  89.6103896103896 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  80.51948051948052 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  74.67532467532467 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  47.14285714285714 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  52.85714285714286 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  72.14285714285714 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  70.71428571428572 %
+  ---------------------------- [Cluster] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 	Accuracy:  70.06802721088435 %
+  Running  bayesClassifier  to predict [Cluster] ... 	Accuracy:  73.12925170068027 %
+  Running  svmClassifier  to predict [Cluster] ... 	Accuracy:  64.96598639455783 %
+  Running  nnClassifier  to predict [Cluster] ... 	Accuracy:  75.85034013605441 %
+******* Using only dead data **********
+  ---------------------------- [Cluster] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 	Accuracy:  92.8796755295178 %
+  Running  bayesClassifier  to predict [Cluster] ... 	Accuracy:  90.0405588102749 %
+  Running  svmClassifier  to predict [Cluster] ... 	Accuracy:  93.51059035601622 %
+  Running  nnClassifier  to predict [Cluster] ... 	Accuracy:  94.00630914826499 %
+
+
+** With augmented data ***********************************************************************************************************
+************************************** Running Goal: Classification **************************************
+******* Random mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  93.46552501126634 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  91.7981072555205 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  93.87111311401533 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  94.3217665615142 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  98.99280575539568 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  95.58752997601918 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  99.18465227817745 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  99.42446043165467 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  7.462686567164178 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  32.83582089552239 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  23.88059701492537 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  16.417910447761194 %
+  ---------------------------- [Cluster] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 	Accuracy:  93.51059035601622 %
+  Running  bayesClassifier  to predict [Cluster] ... 	Accuracy:  90.401081568274 %
+  Running  svmClassifier  to predict [Cluster] ... 	Accuracy:  93.87111311401533 %
+  Running  nnClassifier  to predict [Cluster] ... 	Accuracy:  94.59215863001353 %
+******* Balanced mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  61.224489795918366 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  67.00680272108843 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  64.62585034013605 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  70.74829931972789 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  87.5 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  84.72222222222221 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  70.13888888888889 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  76.38888888888889 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 	Accuracy:  36.0 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 	Accuracy:  50.0 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 	Accuracy:  62.0 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 	Accuracy:  65.33333333333333 %
+  ---------------------------- [Cluster] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 	Accuracy:  69.72789115646259 %
+  Running  bayesClassifier  to predict [Cluster] ... 	Accuracy:  72.10884353741497 %
+  Running  svmClassifier  to predict [Cluster] ... 	Accuracy:  65.3061224489796 %
+  Running  nnClassifier  to predict [Cluster] ... 	Accuracy:  75.85034013605441 %
+******* Using only dead data **********
+  ---------------------------- [Cluster] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 	Accuracy:  91.84317260027039 %
+  Running  bayesClassifier  to predict [Cluster] ... 	Accuracy:  88.37314105452907 %
+  Running  svmClassifier  to predict [Cluster] ... 	Accuracy:  92.56421811626859 %
+  Running  nnClassifier  to predict [Cluster] ... 	Accuracy:  94.27670121676431 %
+
+
+** With original data ***********************************************************************************************************
+************************************** Running Goal: Clinical outcome (death) **************************************
+******* Random mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  23.749436683190623 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.23614240648941 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  22.127084272194683 %
+
+..... testset only includes alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  25.47307132459971 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.560892770499757 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  25.424551188743326 %
+
+..... testset only includes dead data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.2658227848101267 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  0.0 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  3.79746835443038 %
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  77.19693555655701 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.912122577737719 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  92.11356466876973 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  74.40288418206399 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.137449301487156 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  86.66065795403335 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  77.33213159080667 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.182514646237044 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  91.52771518702119 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  77.5574583145561 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.182514646237044 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  92.74447949526814 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  82.64862252295795 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.268245529241179 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  98.84001933301111 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  79.55534074432093 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.074915418076365 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  92.46012566457226 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  82.64862252295795 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.316578057032382 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  97.48670855485742 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  82.55195746737554 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.268245529241179 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  97.92170130497824 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.0 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  0.0 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.0 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.3333333333333335 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  6.0 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  8.666666666666668 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.0 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.0 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  1.3333333333333335 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.0 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.666666666666667 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.0 %
+******* Balanced mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.7210884353741496 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  1.3605442176870748 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  3.741496598639456 %
+
+..... testset only includes alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  4.166666666666666 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  0.6944444444444444 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.7777777777777777 %
+
+..... testset only includes dead data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.3333333333333335 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.0 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  6.666666666666667 %
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  41.83673469387755 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  6.462585034013606 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  41.83673469387755 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  46.25850340136054 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  7.142857142857142 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  40.136054421768705 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  42.17687074829932 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  10.204081632653061 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  44.21768707482993 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  44.89795918367347 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  8.503401360544217 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  41.156462585034014 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  73.50993377483444 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.9735099337748347 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  73.50993377483444 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  80.79470198675497 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.635761589403973 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  80.79470198675497 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  82.11920529801324 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.635761589403973 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  79.47019867549669 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  70.86092715231787 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.3112582781456954 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  69.5364238410596 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  8.391608391608392 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  9.090909090909092 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  11.188811188811188 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  9.79020979020979 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  9.79020979020979 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  10.48951048951049 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  11.888111888111888 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  10.48951048951049 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  13.986013986013987 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  14.685314685314685 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  13.986013986013987 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  15.384615384615385 %
+******* Using only dead data **********
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  10.204081632653061 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  20.408163265306122 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  25.170068027210885 %
+  ---------------------------- [Cluster + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  23.12925170068027 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  29.25170068027211 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  19.727891156462583 %
+  Running  bayesClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  23.12925170068027 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  22.448979591836736 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  14.965986394557824 %
+  Running  svmClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  19.047619047619047 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  20.408163265306122 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  11.564625850340136 %
+  Running  nnClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  22.448979591836736 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  26.53061224489796 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  25.170068027210885 %
+
+
+** With augmented data ***********************************************************************************************************
+************************************** Running Goal: Clinical outcome (death) **************************************
+******* Random mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  23.974763406940063 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.9206849932401986 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  23.8395673726904 %
+
+..... testset only includes alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  25.51857211770381 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.196816208393632 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  24.505547515677762 %
+
+..... testset only includes dead data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.054794520547945 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  0.0 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  4.794520547945205 %
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  79.67552951780081 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.506534474988734 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  92.06849932401983 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  75.98017124831004 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.776926543488058 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  85.53402433528616 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  79.90085624155024 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.326273095989184 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  92.78954484001802 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  79.94592158630014 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.596665164488508 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  92.56421811626859 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  85.14230583695128 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.630969609261939 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  98.69753979739508 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  80.60781476121564 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.341534008683068 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  91.17221418234442 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  84.80463096960926 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.534491075735649 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  96.9126869271587 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  85.23878437047757 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.630969609261939 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  98.4081041968162 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.054794520547945 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.73972602739726 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.47945205479452 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  10.273972602739725 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  10.95890410958904 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  9.58904109589041 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.054794520547945 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  0.0 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  5.47945205479452 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.73972602739726 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.10958904109589 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  2.054794520547945 %
+******* Balanced mix of dead and alive data ***********
+..... testset includes both dead and alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  2.380952380952381 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.741496598639456 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  6.462585034013606 %
+
+..... testset only includes alive data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  1.2658227848101267 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.1645569620253164 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  1.89873417721519 %
+
+..... testset only includes dead data .....
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  3.6764705882352944 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.411764705882353 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  6.61764705882353 %
+..... testset includes both dead and alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  38.775510204081634 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  5.442176870748299 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  35.034013605442176 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  42.517006802721085 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  6.462585034013606 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  40.816326530612244 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  37.41496598639456 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  8.843537414965986 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  37.07482993197279 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  38.095238095238095 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  6.122448979591836 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  39.455782312925166 %
+
+..... testset only includes alive data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  72.14285714285714 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  3.571428571428571 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  64.28571428571429 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  79.28571428571428 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.285714285714286 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  73.57142857142858 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  53.57142857142857 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  2.857142857142857 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  55.714285714285715 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  70.0 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  4.285714285714286 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  67.14285714285714 %
+
+..... testset only includes dead data .....
+  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  8.441558441558442 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  7.142857142857142 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  16.233766233766232 %
+  Running  bayesClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  9.090909090909092 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  8.441558441558442 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  11.688311688311687 %
+  Running  svmClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  9.740259740259742 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  11.688311688311687 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  20.12987012987013 %
+  Running  nnClassifier  to predict [Dead/Alive] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  12.337662337662337 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  12.337662337662337 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  11.688311688311687 %
+******* Using only dead data **********
+  ---------------------------- [d from CT] Regression modeling Tests ------------------------------
+  Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  19.727891156462583 %
+  Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  24.489795918367346 %
+  Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  25.170068027210885 %
+  ---------------------------- [Cluster + d from CT] modeling Tests ------------------------------
+  Running  knnClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  25.850340136054424 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  22.448979591836736 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  20.408163265306122 %
+  Running  bayesClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  20.408163265306122 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  17.006802721088434 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  19.727891156462583 %
+  Running  svmClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  22.448979591836736 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  13.60544217687075 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  14.965986394557824 %
+  Running  nnClassifier  to predict [Cluster] ... 
+    Running  linearRegressor  to predict [d from CT] ... 	Accuracy:  25.170068027210885 %
+    Running  knnRegressor  to predict [d from CT] ... 	Accuracy:  20.408163265306122 %
+    Running  nnRegressor  to predict [d from CT] ... 	Accuracy:  23.12925170068027 %
+
+
