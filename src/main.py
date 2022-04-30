@@ -113,6 +113,8 @@ def groupClassify(data, n_group):
         _data = pd.concat([data, _y], axis=1)
         _data.reset_index(drop=True, inplace=True)
         return _data
+        #return _data, g_dict
+    
     
 def getAccuracy(pred, test, is_regression):
     count = 0
