@@ -6,7 +6,7 @@ from sklearn.utils import shuffle
 import numpy as np
 import pandas as pd
 import copy
-MARGIN = 36*3
+MARGIN = 365*3
 CLUSTER_NUM = 3
 CLUSTER_COL = 'Group'
 SIZE = 0.25
@@ -15,10 +15,10 @@ DEATH = 2
 DEAD = 1
 ALIVE = 0
 
-#RegressorList = ['linearRegressor']
-RegressorList = ['linearRegressor', 'knnRegressor', 'nnRegressor']
-#ClassifierList = ['bayesClassifier', 'svmClassifier']
-ClassifierList = ['knnClassifier', 'bayesClassifier', 'svmClassifier', 'nnClassifier']
+RegressorList = ['linearRegressor']
+#RegressorList = ['linearRegressor', 'knnRegressor', 'nnRegressor']
+ClassifierList = ['nnClassifier']
+#ClassifierList = ['knnClassifier', 'bayesClassifier', 'svmClassifier', 'nnClassifier']
 
 
 ## Debug purpose
@@ -89,8 +89,7 @@ def _splitDataColumn(data ,x_col, y_col, col):
     return train_data[x_col], train_data[y_col], train_data[col], test_data[x_col], test_data[y_col]
 
 ## randomly shuffle data, and return a balanced mixture of dead and alive data
-def balancedMix(data):
-    col = 'binary_DEATH [d from CT]'
+def balancedMix(data, col):
     dead_data = data[data[col] == DEAD]
     alive_data = data[data[col] == ALIVE]
     alive_data = shuffle(alive_data)
@@ -335,7 +334,7 @@ def RegressorTestRandomMix(data, x_col, y_col, death_col):
 
 ## run regression with balanced mixture of data    
 def RegressorTestBalancedMix(data, x_col, y_col, death_col):
-    _data = balancedMix(data)
+    _data = balancedMix(data, death_col)
     x_train, y_train, death_train, x_test, y_test, death_test = splitDataColumn(_data, x_col, y_col, death_col)
     
     ## testset includes both dead and alive data
@@ -405,7 +404,7 @@ def DeathRegressorTestRandomMix(data, x_col, y_col, death_col):
 
 ## run classification (dead/alive) + regression with balanced mixture of data
 def DeathRegressorTestBalancedMix(data, x_col, y_col, death_col):
-    _data = balancedMix(data)
+    _data = balancedMix(data, death_col)
     x_train, y_train, death_train, x_test, y_test, death_test = splitDataColumn(_data, x_col, y_col, death_col)
 
     ## testset includees both dead and alive data
@@ -486,7 +485,7 @@ def DeathTestRandomMix(data, x_col, y_col):
 
 ## run classification (dead/alive) with balanced mixture of data
 def DeathTestBalancedMix(data, x_col, y_col):
-    _data = balancedMix(data)
+    _data = balancedMix(data, y_col)
     x_train, y_train, x_test, y_test = splitData(_data, x_col, y_col)
 
     ## testset includees both dead and alive data
@@ -519,7 +518,7 @@ def DeathTest(data, x_col, y_col):
 
 ## run classification (clustering) with balanced mixture of data
 def ClassifierTestBalancedMix(data, x_col, y_col, death_col):
-    _data = balancedMix(data)
+    _data = balancedMix(data, death_col)
     train, g_dict = groupClassify(_data, CLUSTER_NUM)
     x_train, y_train, x_test, y_test = splitData(train, x_col, y_col)
     runClassifierTest(x_train, y_train, x_test, y_test)
@@ -536,25 +535,32 @@ def ClassifierTestRandomMix(data, x_col, y_col):
 def ClinicalOutcome(data, x_col, y_col):
     print('************************************** Running Goal: Clinical outcome (death) **************************************')
     death_col = 'binary_DEATH [d from CT]'
+    three_yr_death_col = 'binary_3yr_DEATH [d from CT]'
     cluster_col = 'Group'
 
     ## Random mix of dead and alive data
     print('******* Random mix of dead and alive data ***********')
     RegressorTestRandomMix(data, x_col, y_col, death_col)
+#    print('classifying based on column ', death_col)
     DeathRegressorTestRandomMix(data, x_col, y_col, death_col)
+#    print('classifying based on column ', three_yr_death_col)
+#    DeathRegressorTestRandomMix(data, x_col, y_col, three_yr_death_col)
 
     ## Balanced mix of dead and alive data
     print('******* Balanced mix of dead and alive data ***********')
     RegressorTestBalancedMix(data, x_col, y_col, death_col)
+#    RegressorTestBalancedMix(data, x_col, y_col, three_yr_death_col)
+#    print('classifying based on column ', death_col)
     DeathRegressorTestBalancedMix(data, x_col, y_col, death_col)
+#    print('classifying based on column ', three_yr_death_col)
+#    DeathRegressorTestBalancedMix(data, x_col, y_col, three_yr_death_col)
 
 
     ## Only with dead data
-    print('******* Using only dead data **********')
-    _data = data[data[death_col] == DEAD]
-    RegressorTest(_data, x_col, y_col)
-    ClassifierRegressorTest(_data, x_col, y_col, cluster_col)
-
+#    print('******* Using only dead data **********')
+#    _data = data[data[death_col] == DEAD]
+#    RegressorTest(_data, x_col, y_col)
+#    ClassifierRegressorTest(_data, x_col, y_col, cluster_col)
 #    DeathRegressorTest(data, x_col, y_col, death_col)
 #    DeathClassifierRegressorTest(data, x_col, y_col, death_col, cluster_col)
     print('\n')
@@ -563,24 +569,31 @@ def ClinicalOutcome(data, x_col, y_col):
 def Classification(data, x_col, y_col):
     print('************************************** Running Goal: Classification **************************************')
     death_col = 'binary_DEATH [d from CT]'
+    three_yr_death_col = 'binary_3yr_DEATH [d from CT]'
     cluster_col = 'Group'
 
     ## Random mix of dead and alive data
     print('******* Random mix of dead and alive data ***********')
-    DeathTestRandomMix(data, CT_col, death_col)
-    ClassifierTestRandomMix(data, x_col, cluster_col)
+#    print('predicting column ', death_col)
+    DeathTestRandomMix(data, x_col, death_col)
+#    print('\npredicting column ', three_yr_death_col)
+#    DeathTestRandomMix(data, x_col, three_yr_death_col)
+#    ClassifierTestRandomMix(data, x_col, cluster_col)
 
     ## Balanced mix of dead and alive data
     print('******* Balanced mix of dead and alive data ***********')
-    DeathTestBalancedMix(data, CT_col, death_col)
-    ClassifierTestBalancedMix(data, x_col, cluster_col, death_col)
+#    print('predicting column ', death_col)
+    DeathTestBalancedMix(data, x_col, death_col)
+#    print('\npredicting column ', three_yr_death_col)
+#    DeathTestBalancedMix(data, x_col, three_yr_death_col)
+#    ClassifierTestBalancedMix(data, x_col, cluster_col, death_col)
 
     ## Only with dead data
-    print('******* Using only dead data **********')
+#    print('******* Using only dead data **********')
 #    _data = data[data[death_col] == DEAD]
 #    DeathTest(_data, x_col, death_col)
-    ClassifierTestRandomMix(_data, x_col, death_col)
-    print('\n')
+#    ClassifierTestRandomMix(_data, x_col, death_col)
+#    print('\n')
 
     
 def BiologicalAge(data, x_col, y_col):
@@ -598,20 +611,46 @@ def BiologicalAge(data, x_col, y_col):
 
 
 # ----------------------------------- Data Augmentation -----------------------------------    
+## additnioally classify people who are older than 80 as DEAD
 def dataAugmentation(data):
     for i in range(0, len(data)):
         if data.at[i, 'Age at CT'] >= 80:
             data.at[i, 'binary_DEATH [d from CT]'] = DEAD
     return data
-            
 
+## create a column for those who die within 3 years
+def dataStandard(data):
+    standard = 365*3
+    col_3yr = 'binary_3yr_DEATH [d from CT]'
+    
+    data[col_3yr] = ALIVE
+    count = 0
+    for row in range(0, len(data)):
+        if data.at[row, 'DEATH [d from CT]'] <= standard:
+            count += 1
+            data.at[row, col_3yr] = DEAD
+    print('# of people die within 3 years = ', count)
+    return data
+
+## bootstrapping DEAD data by replicating CT data for those who die within 3 years
+def bootstrap(data):
+    threshold = 365*3
+    replica = data[data['DEATH [d from CT]'] <= threshold]
+    _data = pd.concat([data, replica], axis=0)
+    _data.reset_index(drop=True, inplace=True)
+    return _data    
+    
+    
 # ----------------------------------- Main function ---------------------------------------
 if __name__ == '__main__':
     data = runPreprocessor('data/OppScrData.csv', 'data/ssa_life_expectancy.csv')
 
-    # augmented data
+    # data augmentation
     _data = dataAugmentation(data)
+    _data = dataStandard(data)
 
+    # bootstrapped data
+    b_data = bootstrap(_data)
 
     CT_col = ['L1_HU_BMD', 'TAT Area (cm2)', 'Total Body                Area EA (cm2)', 'SAT Area (cm2)', 'VAT/SAT     Ratio', 'Muscle HU', 'L3 SMI (cm2/m2)', 'AoCa        Agatston', 'Liver HU    (Median)']
     CT_clinical_col = ['Clinical F/U interval  [d from CT]', 'BMI', 'BMI >30', 'Sex', 'Age at CT', 'Tobacco', 'Alcohol Aggregated', 'FRS 10-year risk (%)', 'FRAX 10y Fx Prob (Orange-w/ DXA)', 'Met Sx', 'L1_HU_BMD', 'Total Body                Area EA (cm2)', 'SAT Area (cm2)', 'VAT/SAT     Ratio', 'Muscle HU', 'L3 SMI (cm2/m2)', 'AoCa        Agatston', 'Liver HU    (Median)']
@@ -627,6 +666,9 @@ if __name__ == '__main__':
     #### with augmented data
     print('** With augmented data ***********************************************************************************************************')
     Classification(_data, CT_col, y_col)
+    #### with bootstrapped data
+    print('** With bootstrapped data ***********************************************************************************************************')
+    Classification(b_data, CT_col, y_col)
 
     # test Clinical outcome accuracy (regressor, classifier + regressor)
     ## with original data
@@ -635,6 +677,9 @@ if __name__ == '__main__':
     ## with augmented data
     print('** With augmented data ***********************************************************************************************************')
     ClinicalOutcome(_data, CT_col, y_col)
+    ## with bootstrapped data
+    print('** With augmented data ***********************************************************************************************************')
+    ClinicalOutcome(b_data, CT_col, y_col)
 
 
 
@@ -642,19 +687,19 @@ if __name__ == '__main__':
     print('Training with Clinical + CT data ***********************************************************************************************************')
     ## test classification accuracy (Alive/Dead, Clustering)
     #### with original data
-    print('** With original data ***********************************************************************************************************')
-    Classification(data, CT_clinical_col, y_col)
+#    print('** With original data ***********************************************************************************************************')
+#    Classification(data, CT_clinical_col, y_col)
     #### with augmented data
-    print('** With augmented data ***********************************************************************************************************')
-    Classification(_data, CT_clinical_col, y_col)
+#    print('** With augmented data ***********************************************************************************************************')
+#    Classification(_data, CT_clinical_col, y_col)
 
     # test Clinical outcome accuracy (regressor, classifier + regressor)
     ## with original data
-    print('** With original data ***********************************************************************************************************')
-    ClinicalOutcome(data, CT_clinical_col, y_col)
+#    print('** With original data ***********************************************************************************************************')
+#    ClinicalOutcome(data, CT_clinical_col, y_col)
     ## with augmented data
-    print('** With augmented data ***********************************************************************************************************')
-    ClinicalOutcome(_data, CT_clinical_col, y_col)
+#    print('** With augmented data ***********************************************************************************************************')
+#    ClinicalOutcome(_data, CT_clinical_col, y_col)
     
 
     
