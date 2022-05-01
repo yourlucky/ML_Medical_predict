@@ -49,20 +49,30 @@ class Cluster_made:
 
 if __name__ == '__main__':
 
-    _data = pd.read_csv('/Users/yoon/Documents/lecture_note/760/medical_project/yoon_python/data_apr.csv')
+    #_data = pd.read_csv('/Users/yoon/Documents/lecture_note/760/medical_project/yoon_python/data_apr.csv')
+    _data = pd.read_csv('/Users/yoon/Documents/lecture_note/760/medical_project/yoon_python/data_try_one.csv')
+    
+    
     d_data = np.array((_data['_DEATH [d from CT]']))
-    grouping = Cluster(d_data,7)
-    data_group = pd.DataFrame({'Group': grouping}) 
+    #grouping = Cluster(d_data,7)
+    #data_group = pd.DataFrame({'Group': grouping}) 
 
-    _data=pd.concat([_data,data_group],axis=1)
-
+    #_data=pd.concat([_data,data_group],axis=1)
     columns = ['L1_HU_BMD','Total Body                Area EA (cm2)','SAT Area (cm2)','VAT/SAT     Ratio','Muscle HU','L3 SMI (cm2/m2)','AoCa        Agatston','Liver HU    (Median)']
-    y_columns = ['binary_DEATH [d from CT]']
+    #y_columns = ['binary_DEATH [d from CT]']
     #y_columns = ['_DEATH [d from CT]']
+    y_columns= ['Made_Group']
 
+    #s_data = _data.loc[_data['binary_DEATH [d from CT]']==1]
+    #print(s_data.head)
+    #print(s_data['Group'])
+   
     _x = _data[columns]
     _y = _data[y_columns]
-    
+    print(_y.dtypes)
+
+    #print(_y)
+
     X_train, X_test, Y_train, Y_test = train_test_split(_x, _y, test_size=0.25)
     Y_test.reset_index(drop=True,inplace=True)
 

@@ -118,18 +118,7 @@ def groupClassify(data, n_group):
             counter += 1
         for i in range(0, size):
             group[i+idx] = g_idx
-        idx += size
-
-    g_dict = {}
-    for i in range(0, len(unique_data)):
-        g_dict[unique_data[i]] = group[i]
-    y = np.empty(len(raw_data))
-    for i in range(0, len(raw_data)):
-        y[i] = g_dict[raw_data[i]]
-    _y = pd.DataFrame({CLUSTER_COL: y})
-    _y.reset_index(drop=True, inplace=True)
-    data.reset_index(drop=True, inplace=True)
-    
+        idx += size    
     _data = pd.concat([data, _y], axis=1)
     _data.reset_index(drop=True, inplace=True)
     return _data, g_dict
