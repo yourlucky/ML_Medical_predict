@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import copy
 MARGIN = 36*3
-CLUSTER_NUM = 3
+CLUSTER_NUM = 2
 CLUSTER_COL = 'Group'
 SIZE = 0.25
 N_NEIGHBORS = 20
@@ -630,11 +630,11 @@ if __name__ == '__main__':
 
     # test Clinical outcome accuracy (regressor, classifier + regressor)
     ## with original data
-    print('** With original data ***********************************************************************************************************')
-    ClinicalOutcome(data, CT_col, y_col)
+    #print('** With original data ***********************************************************************************************************')
+    #ClinicalOutcome(data, CT_col, y_col)
     ## with augmented data
-    print('** With augmented data ***********************************************************************************************************')
-    ClinicalOutcome(_data, CT_col, y_col)
+    #print('** With augmented data ***********************************************************************************************************')
+    #ClinicalOutcome(_data, CT_col, y_col)
 
 
 
@@ -650,11 +650,11 @@ if __name__ == '__main__':
 
     # test Clinical outcome accuracy (regressor, classifier + regressor)
     ## with original data
-    print('** With original data ***********************************************************************************************************')
-    ClinicalOutcome(data, CT_clinical_col, y_col)
+    #print('** With original data ***********************************************************************************************************')
+    #ClinicalOutcome(data, CT_clinical_col, y_col)
     ## with augmented data
-    print('** With augmented data ***********************************************************************************************************')
-    ClinicalOutcome(_data, CT_clinical_col, y_col)
+    #print('** With augmented data ***********************************************************************************************************')
+    #ClinicalOutcome(_data, CT_clinical_col, y_col)
     
 
     
