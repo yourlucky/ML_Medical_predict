@@ -39,7 +39,6 @@ if __name__ == '__main__':
     X_train, X_test, Y_train, Y_test = train_test_split(_x, _y, test_size=0.25)
     Y_test.reset_index(drop=True,inplace=True)
 
-    #Model = svm.SVC(kernel='linear') //SVM은 데이터가 크면 시간이 오래걸려 못쓴다함
     Model = SGDClassifier(loss="hinge", penalty="l2", max_iter=100) #94.37%
     #Model = SGDClassifier(loss="log", max_iter=100) #94.73%
     
