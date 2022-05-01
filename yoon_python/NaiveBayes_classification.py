@@ -21,13 +21,17 @@ from sklearn.model_selection import cross_val_score
 
 if __name__ == '__main__':
 
-    data = pd.read_csv('data_cluster.csv')
+    #data = pd.read_csv('data_cluster.csv')
     #print(data.dtypes)
-
-
+    data = pd.read_csv('/Users/yoon/Documents/lecture_note/760/medical_project/yoon_python/data_try_one.csv')
+    
 
     columns = ['L1_HU_BMD','Total Body                Area EA (cm2)','SAT Area (cm2)','VAT/SAT     Ratio','Muscle HU','L3 SMI (cm2/m2)','AoCa        Agatston','Liver HU    (Median)']
-    y_columns = ['cluster']
+    #y_columns = ['cluster']
+    y_columns= ['Made_Group']
+
+
+
     #death_day = ['_DEATH [d from CT]']
 
     _x = data[columns]
@@ -55,12 +59,6 @@ if __name__ == '__main__':
     for i in range(0,len(Y_gnb_pred)) :
         if Y_gnb_pred[i]==Y_test.values[i][0]:
             count+=1
-
-
-    #digits = load_digits()
-    #print(cross_val_score(gnb, digits.data, digits.target, scoring='accuracy', cv=10).mean())
-
-    #fpr_gnb, tpr_gnb, thresholds_gnb = roc_curve(Y_test, Y_gnb_score[:, 1])
 
     print("accuaracy : ", count/len(Y_gnb_pred))
 

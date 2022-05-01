@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import copy
 MARGIN = 365*3
-CLUSTER_NUM = 3
+CLUSTER_NUM = 2
 CLUSTER_COL = 'Group'
 SIZE = 0.25
 N_NEIGHBORS = 20
@@ -117,18 +117,7 @@ def groupClassify(data, n_group):
             counter += 1
         for i in range(0, size):
             group[i+idx] = g_idx
-        idx += size
-
-    g_dict = {}
-    for i in range(0, len(unique_data)):
-        g_dict[unique_data[i]] = group[i]
-    y = np.empty(len(raw_data))
-    for i in range(0, len(raw_data)):
-        y[i] = g_dict[raw_data[i]]
-    _y = pd.DataFrame({CLUSTER_COL: y})
-    _y.reset_index(drop=True, inplace=True)
-    data.reset_index(drop=True, inplace=True)
-    
+        idx += size    
     _data = pd.concat([data, _y], axis=1)
     _data.reset_index(drop=True, inplace=True)
     return _data, g_dict
@@ -672,14 +661,19 @@ if __name__ == '__main__':
 
     # test Clinical outcome accuracy (regressor, classifier + regressor)
     ## with original data
-    print('** With original data ***********************************************************************************************************')
-    ClinicalOutcome(data, CT_col, y_col)
+    #print('** With original data ***********************************************************************************************************')
+    #ClinicalOutcome(data, CT_col, y_col)
     ## with augmented data
+<<<<<<< HEAD
     print('** With augmented data ***********************************************************************************************************')
     ClinicalOutcome(_data, CT_col, y_col)
     ## with bootstrapped data
     print('** With augmented data ***********************************************************************************************************')
     ClinicalOutcome(b_data, CT_col, y_col)
+=======
+    #print('** With augmented data ***********************************************************************************************************')
+    #ClinicalOutcome(_data, CT_col, y_col)
+>>>>>>> abfa312961bd834a8ee0750bcc2b8277fdd02eca
 
 
 
@@ -695,11 +689,19 @@ if __name__ == '__main__':
 
     # test Clinical outcome accuracy (regressor, classifier + regressor)
     ## with original data
+<<<<<<< HEAD
 #    print('** With original data ***********************************************************************************************************')
 #    ClinicalOutcome(data, CT_clinical_col, y_col)
     ## with augmented data
 #    print('** With augmented data ***********************************************************************************************************')
 #    ClinicalOutcome(_data, CT_clinical_col, y_col)
+=======
+    #print('** With original data ***********************************************************************************************************')
+    #ClinicalOutcome(data, CT_clinical_col, y_col)
+    ## with augmented data
+    #print('** With augmented data ***********************************************************************************************************')
+    #ClinicalOutcome(_data, CT_clinical_col, y_col)
+>>>>>>> abfa312961bd834a8ee0750bcc2b8277fdd02eca
     
 
     

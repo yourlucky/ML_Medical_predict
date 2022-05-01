@@ -14,20 +14,6 @@ from sklearn.model_selection import train_test_split
 
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
-import sys
-sys.path.insert(0,'/Users/yoon/Documents/lecture_note/760/medical_project/')
-
-from preprocessor import Preprocessor
-
-def Cluster(_x,cluster_number=7) :
-    cluster_calculater= Cluster_made(_x,cluster_number)
-    cluster_dict = cluster_calculater.group_dict
-
-    _y=np.empty(len(_x))
-
-    for i in range(0,len(_x)):
-        _y[i]=cluster_dict[_x[i]]
-    return _y
 
 class Cluster_made:
     def __init__(self, _data,cluster_number=7):
@@ -41,7 +27,7 @@ class Cluster_made:
         remain_counter = 0
         index=0
 
-        for group_number in range(1, self.cluster_number+1) :
+        for group_number in range(self.cluster_number,0,-1) :
             correction_share = int (len(self._data)/self.cluster_number)
         
             if remain_counter < (len(self._data) % self.cluster_number) :
@@ -55,6 +41,18 @@ class Cluster_made:
 
         for i in range(0, len(self._data)):
             self.group_dict[self._data[i]]=self.group[i]
+
+def Cluster(_x,cluster_number=7) :
+    cluster_calculater = Cluster_made(_x,cluster_number)
+    cluster_dict = cluster_calculater.group_dict
+
+    _y=np.empty(len(_x))
+
+    for i in range(0,len(_x)):
+        _y[i]=cluster_dict[_x[i]]
+    return _y
+
+        
 
 
 if __name__ == '__main__':
@@ -82,8 +80,8 @@ if __name__ == '__main__':
     Y_test.reset_index(drop=True,inplace=True)
 
     #Model = KNeighborsRegressor(n_neighbors=10)
-    Model = KNeighborsClassifier(n_neighbors=50)
-    #Model = GaussianNB()
+    #Model = KNeighborsClassifier(n_neighbors=50)
+    Model = GaussianNB()
     
     Model.fit(X_train.values, Y_train.values.ravel())
     Predict_value = Model.predict(X_test) #최종 예측 1개의 확률값
