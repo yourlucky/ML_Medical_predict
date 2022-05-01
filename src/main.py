@@ -664,16 +664,11 @@ if __name__ == '__main__':
     #print('** With original data ***********************************************************************************************************')
     #ClinicalOutcome(data, CT_col, y_col)
     ## with augmented data
-<<<<<<< HEAD
     print('** With augmented data ***********************************************************************************************************')
     ClinicalOutcome(_data, CT_col, y_col)
     ## with bootstrapped data
     print('** With augmented data ***********************************************************************************************************')
     ClinicalOutcome(b_data, CT_col, y_col)
-=======
-    #print('** With augmented data ***********************************************************************************************************')
-    #ClinicalOutcome(_data, CT_col, y_col)
->>>>>>> abfa312961bd834a8ee0750bcc2b8277fdd02eca
 
 
 
@@ -689,19 +684,11 @@ if __name__ == '__main__':
 
     # test Clinical outcome accuracy (regressor, classifier + regressor)
     ## with original data
-<<<<<<< HEAD
-#    print('** With original data ***********************************************************************************************************')
-#    ClinicalOutcome(data, CT_clinical_col, y_col)
-    ## with augmented data
-#    print('** With augmented data ***********************************************************************************************************')
-#    ClinicalOutcome(_data, CT_clinical_col, y_col)
-=======
     #print('** With original data ***********************************************************************************************************')
     #ClinicalOutcome(data, CT_clinical_col, y_col)
     ## with augmented data
     #print('** With augmented data ***********************************************************************************************************')
     #ClinicalOutcome(_data, CT_clinical_col, y_col)
->>>>>>> abfa312961bd834a8ee0750bcc2b8277fdd02eca
     
 
     
