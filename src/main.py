@@ -6,18 +6,22 @@ from sklearn.utils import shuffle
 import numpy as np
 import pandas as pd
 import copy
+BIO_MARGIN = 3
+#MARGIN = 3
 MARGIN = 365*3
 CLUSTER_NUM = 2
 CLUSTER_COL = 'Group'
 SIZE = 0.25
-N_NEIGHBORS = 20
+N_NEIGHBORS = 10
 DEATH = 2
 DEAD = 1
 ALIVE = 0
 
-RegressorList = ['linearRegressor']
-#RegressorList = ['linearRegressor', 'knnRegressor', 'nnRegressor']
-ClassifierList = ['nnClassifier']
+#RegressorList = ['nnRegressor']
+#RegressorList = ['linearRegressor', 'nnRegressor']
+RegressorList = ['linearRegressor', 'knnRegressor', 'nnRegressor']
+#ClassifierList = ['nnClassifier']
+ClassifierList = ['bayesClassifier', 'svmClassifier', 'nnClassifier']
 #ClassifierList = ['knnClassifier', 'bayesClassifier', 'svmClassifier', 'nnClassifier']
 
 
@@ -99,8 +103,8 @@ def balancedMix(data, col):
     return _data
 
 ## classify clusters based on 'd from CT'
-def groupClassify(data, n_group):    
-    raw_data = np.array((data['_DEATH [d from CT]']))
+def groupClassify(data, n_group, col):    
+    raw_data = np.array((data[col]))
     unique_data = np.unique(raw_data)
     unique_data = np.sort(unique_data)
         
@@ -117,7 +121,18 @@ def groupClassify(data, n_group):
             counter += 1
         for i in range(0, size):
             group[i+idx] = g_idx
-        idx += size    
+        idx += size
+
+    g_dict = {}
+    for i in range(0, len(unique_data)):
+        g_dict[unique_data[i]] = group[i]
+    y = np.empty(len(raw_data))
+    for i in range(0, len(raw_data)):
+        y[i] = g_dict[raw_data[i]]
+    _y = pd.DataFrame({CLUSTER_COL: y})
+    _y.reset_index(drop=True, inplace=True)
+    data.reset_index(drop=True, inplace=True)
+    
     _data = pd.concat([data, _y], axis=1)
     _data.reset_index(drop=True, inplace=True)
     return _data, g_dict
@@ -134,6 +149,17 @@ def getAccuracy(pred, test, is_regression):
                 count += 1
     return count / len(test) * 100
 
+## util function for accuracy measurement
+def getBioAccuracy(pred, test, is_regression):
+    count = 0
+    for i in range(0, len(test)):
+        if is_regression == True:
+            if abs(pred[i] - test[i]) <= BIO_MARGIN:
+                count += 1
+        else:
+            if pred[i] == test.values.tolist()[i]:
+                count += 1
+    return count / len(test) * 100
 
 # ----------------------------------- Model functions -----------------------------------
 ## use Regression to predict [d from CT]
@@ -147,6 +173,19 @@ def runRegressorTest(x_train, y_train, x_test, y_test):
         pred = reg.predict(x_test)
         acc = getAccuracy(pred, y_test, True)
         print('Accuracy: ', acc, '%')
+
+## use Regression to predict Biological age
+def runBioRegressorTest(x_train, y_train, x_test, y_test):
+    print('  ---------------------------- [Biological Age] Regression modeling Tests ------------------------------')
+    for reg_arg in RegressorList:
+        print('  Running ', reg_arg, ' to predict [Biological Age] ... ', end='\t')
+        reg = Regressor(x_train, y_train, reg_arg)
+        reg.fit()
+
+        pred = reg.predict(x_test)
+        acc = getBioAccuracy(pred, y_test, True)
+        print('Accuracy: ', acc, '%')
+
 
 ## use Classification to predict [dead/alive]
 def runDeathTest(x_train, y_train, x_test, y_test):
@@ -209,6 +248,43 @@ def runDeathRegressorTest(x_train, y_train, death_train, x_test, y_test):
             acc = count / len(y_test) * 100
             print('Accuracy: ', acc, '%')
 
+## use Classification to predict [dead/alive] + use Regression to predict [Biological age]
+def runBioDeathRegressorTest(x_train, y_train, death_train, x_test, y_test):
+    print('  ---------------------------- [Dead/Alive + d from CT] modeling Tests ------------------------------')
+    x_col = x_train.columns
+    y_col = y_train.name
+    death_col = death_train.name
+    for cls_arg in ClassifierList:
+        print('  Running ', cls_arg, ' to predict [Dead/Alive] ... ')
+        cls = Classifier(x_train, death_train, DEATH, cls_arg)
+        cls.fit()
+        for reg_arg in RegressorList:
+            print('    Running ', reg_arg, ' to predict [Biological Age] ... ', end='\t')
+            train = pd.concat([x_train, death_train, y_train], axis=1)
+            train.reset_index(drop=True, inplace=True)
+
+            alive_train = train[train[death_col] == ALIVE]
+            alive_reg = Regressor(alive_train[x_col], alive_train[y_col], reg_arg)
+            alive_reg.fit()
+            
+            dead_train = train[train[death_col] == DEAD]
+            dead_reg = Regressor(dead_train[x_col], dead_train[y_col], reg_arg)
+            dead_reg.fit()
+
+            cls_pred = cls.predict(x_test)
+            count = 0
+            for i in range(0, len(x_test)):
+                if cls_pred[i] == ALIVE:
+                    y_pred = alive_reg.predict(x_test.iloc[[i]])
+                    if abs(y_pred - y_test[i]) <= BIO_MARGIN:
+                        count += 1
+                else:
+                    y_pred = dead_reg.predict(x_test.iloc[[i]])
+                    if abs(y_pred - y_test[i]) <= BIO_MARGIN:
+                        count += 1
+            acc = count / len(y_test) * 100
+            print('Accuracy: ', acc, '%')
+
 ## use Classification to predict [cluster] + use Regression to predict [d from CT]
 def runClassifierRegressorTest(x_train, y_train, cluster_train, x_test, y_test):
     print('  ---------------------------- [Cluster + d from CT] modeling Tests ------------------------------')
@@ -237,6 +313,37 @@ def runClassifierRegressorTest(x_train, y_train, cluster_train, x_test, y_test):
                     count += 1
             acc = count / len(y_test) * 100
             print('Accuracy: ', acc, '%')
+
+## use Classification to predict [cluster] + use Regression to predict [Biological age]
+def runBioClassifierRegressorTest(x_train, y_train, cluster_train, x_test, y_test):
+    print('  ---------------------------- [Cluster + d from CT] modeling Tests ------------------------------')
+    x_col = x_train.columns
+    y_col = y_train.name
+    for cls_arg in ClassifierList:
+        print('  Running ', cls_arg, ' to predict [Cluster] ... ')
+        cls = Classifier(x_train, cluster_train, CLUSTER_NUM, cls_arg)
+        cls.fit()
+        for reg_arg in RegressorList:
+            print('    Running ', reg_arg, ' to predict [Biological Age] ... ', end='\t')
+            regs = []
+            for cluster in range(0, CLUSTER_NUM):
+                train = pd.concat([x_train, cluster_train, y_train], axis=1)
+                train.reset_index(drop=True, inplace=True)
+                train = train[train[CLUSTER_COL] == cluster]
+                reg = Regressor(train[x_col], train[y_col], reg_arg)
+                reg.fit()
+                regs = np.append(regs, reg)
+
+            cls_pred = cls.predict(x_test)
+            count = 0
+            for i in range(0, len(x_test)):
+                y_pred = regs[int(cls_pred[i])].predict(x_test.iloc[[i]])
+                if abs(y_pred - y_test[i]) <= BIO_MARGIN:
+                    count += 1
+            acc = count / len(y_test) * 100
+            print('Accuracy: ', acc, '%')
+
+
 
 ## use Classification to predict [dead/alive] + use Classification to predict [cluster] + use Regression to predict [d from CT]
 def runDeathClassifierRegressorTest(dead_x_train, dead_y_train, dead_cluster_train, alive_x_train, alive_y_train, alive_cluster_train, x_test, y_test):
@@ -352,11 +459,16 @@ def RegressorTest(data, x_col, y_col):
     x_train, y_train, x_test, y_test = splitData(data, x_col, y_col)
     runRegressorTest(x_train, y_train, x_test, y_test)
 
+## run regression -- biological age
+def BioRegressorTest(data, x_col, y_col, test):
+    runBioRegressorTest(data[x_col], data[y_col], test[x_col], test[y_col])
+
 ## run classification (clustering) + regression -- (baseline)
 def ClassifierRegressorTest(data, x_col, y_col, cluster_col):
+    death_col = '_DEATH [d from CT]'
     x_train, y_train, x_test, y_test = splitData(data, x_col, y_col)
     train = pd.concat([x_train, y_train], axis=1)
-    train, g_dict = groupClassify(train, CLUSTER_NUM)
+    train, g_dict = groupClassify(train, CLUSTER_NUM, y_col)
     x_train = train[x_col]
     y_train = train[y_col]
     cluster_train = train[cluster_col]
@@ -365,6 +477,19 @@ def ClassifierRegressorTest(data, x_col, y_col, cluster_col):
     y_train.reset_index(drop=True, inplace=True)
     cluster_train.reset_index(drop=True, inplace=True)
     runClassifierRegressorTest(x_train, y_train, cluster_train, x_test, y_test)
+
+## run classification (clustering) + regression -- biological age
+def BioClassifierRegressorTest(data, x_col, y_col, cluster_col, test):
+    death_col = '_DEATH [d from CT]'
+    train, g_dict = groupClassify(data, CLUSTER_NUM, y_col)
+    x_train = train[x_col]
+    y_train = train[y_col]
+    cluster_train = train[cluster_col]
+
+    x_train.reset_index(drop=True, inplace=True)
+    y_train.reset_index(drop=True, inplace=True)
+    cluster_train.reset_index(drop=True, inplace=True)
+    runBioClassifierRegressorTest(x_train, y_train, cluster_train, test[x_col], test[y_col])
 
 ## run classification (dead/alive) + regression with random mixture of data
 def DeathRegressorTestRandomMix(data, x_col, y_col, death_col):
@@ -422,6 +547,10 @@ def DeathRegressorTest(data, x_col, y_col, death_col):
     x_train, y_train, death_train, x_test, y_test, death_test = splitDataColumn(data, x_col, y_col, death_col)
     runDeathRegressorTest(x_train, y_train, death_train, x_test, y_test)
 
+## run classification (dead/alive) + regression -- biological age 
+def BioDeathRegressorTest(data, x_col, y_col, death_col, test):
+    runBioDeathRegressorTest(data[x_col], data[y_col], data[death_col], test[x_col], test[y_col])
+
 ## run classification (dead/alive) + classification (clustering) + regression -- (baseline)    
 def DeathClassifierRegressorTest(data, x_col, y_col, death_col, cluster_col):
     x_train, y_train, death_train, x_test, y_test, death_test = splitDataColumn(data, x_col, y_col, death_col)
@@ -429,12 +558,12 @@ def DeathClassifierRegressorTest(data, x_col, y_col, death_col, cluster_col):
     dead_train = train[train[death_col] == DEAD]
     alive_train = train[train[death_col] == ALIVE]
     
-    dead_train = groupClassify(dead_train, CLUSTER_NUM)
+    dead_train = groupClassify(dead_train, CLUSTER_NUM, y_col)
     dead_x_train = dead_train[x_col]
     dead_y_train = dead_train[y_col]
     dead_cluster_train = dead_train[cluster_col]
     
-    alive_train = groupClassify(alive_train, CLUSTER_NUM)
+    alive_train = groupClassify(alive_train, CLUSTER_NUM, y_col)
     alive_x_train = alive_train[x_col]
     alive_y_train = alive_train[y_col]
     alive_cluster_train = alive_train[cluster_col]
@@ -508,13 +637,13 @@ def DeathTest(data, x_col, y_col):
 ## run classification (clustering) with balanced mixture of data
 def ClassifierTestBalancedMix(data, x_col, y_col, death_col):
     _data = balancedMix(data, death_col)
-    train, g_dict = groupClassify(_data, CLUSTER_NUM)
+    train, g_dict = groupClassify(_data, CLUSTER_NUM, y_col)
     x_train, y_train, x_test, y_test = splitData(train, x_col, y_col)
     runClassifierTest(x_train, y_train, x_test, y_test)
     
 ## run classification (clustering) with random mixture of data
 def ClassifierTestRandomMix(data, x_col, y_col):
-    train, _dict = groupClassify(data, CLUSTER_NUM)
+    train, _dict = groupClassify(data, CLUSTER_NUM, y_col)
     x_train, y_train, x_test, y_test = splitData(train, x_col, y_col)
     runClassifierTest(x_train, y_train, x_test, y_test)
 
@@ -590,16 +719,21 @@ def BiologicalAge(data, x_col, y_col):
     death_col = 'binary_DEATH [d from CT]'
     cluster_col = 'Group'
 
+    test = bioTestset(data, y_col)
     RegressorTest(data, x_col, y_col)
     DeathRegressorTest(data, x_col, y_col, death_col)
     ClassifierRegressorTest(data, x_col, y_col, cluster_col)
+    
+    #BioRegressorTest(data, x_col, y_col, test)
+    #BioDeathRegressorTest(data, x_col, y_col, death_col, test)
+    #BioClassifierRegressorTest(data, x_col, y_col, cluster_col, test)
 
 #    DeathClassifierRegressorTest(data, x_col, y_col, death_col, cluster_col)
     print('\n')
 
 
 
-# ----------------------------------- Data Augmentation -----------------------------------    
+# ----------------------------------- Extra data handling -----------------------------------    
 ## additnioally classify people who are older than 80 as DEAD
 def dataAugmentation(data):
     for i in range(0, len(data)):
@@ -615,7 +749,7 @@ def dataStandard(data):
     data[col_3yr] = ALIVE
     count = 0
     for row in range(0, len(data)):
-        if data.at[row, 'DEATH [d from CT]'] <= standard:
+        if data.at[row, '_DEATH [d from CT]'] <= standard:
             count += 1
             data.at[row, col_3yr] = DEAD
     print('# of people die within 3 years = ', count)
@@ -623,11 +757,47 @@ def dataStandard(data):
 
 ## bootstrapping DEAD data by replicating CT data for those who die within 3 years
 def bootstrap(data):
-    threshold = 365*3
-    replica = data[data['DEATH [d from CT]'] <= threshold]
+    threshold = 365*2
+    replica = data[data['_DEATH [d from CT]'] <= threshold]
     _data = pd.concat([data, replica], axis=0)
     _data.reset_index(drop=True, inplace=True)
     return _data    
+
+## filter out data for biological age who die within 3 years
+def filterDead(data):
+    threshold = 365*3
+    _data = data[data['_DEATH [d from CT]'] > threshold]
+    _data.reset_index(drop=True, inplace=True)
+    return _data
+
+## create testset for biological age
+def bioTestset(data, col):
+    _data = data.groupby([col], as_index=False).mean()
+    return _data
+
+## set biological age column
+def setBiologicalAge(data, col, stat_table):
+    _data = copy.deepcopy(data)
+    d_col = '_DEATH [d from CT]'
+    _data[col] = 0
+    for row in range(0, len(data)):
+        if _data.at[row, 'Sex'] == 0: # female
+            _data.at[row, col] = (stat_table.at[_data.at[row, 'Age at CT'], 'Female'] * 365 - _data.at[row, d_col])/365 + _data.at[row, 'Age at CT']
+        else: # male
+            _data.at[row, col] = (stat_table.at[_data.at[row, 'Age at CT'], 'Male'] * 365 - _data.at[row, d_col])/365 + _data.at[row, 'Age at CT']
+
+    bio_mean = _data[col].mean()
+    age_mean = _data['Age at CT'].mean()
+    dead_data = _data[_data['binary_DEATH [d from CT]'] == DEAD]
+    dead_bio_mean = dead_data[col].mean()
+    dead_age_mean = dead_data['Age at CT'].mean()
+
+    print('bio mean: ', bio_mean)
+    print('age mean: ', age_mean)
+
+    print('dead bio mean: ', dead_bio_mean)
+    print('dead age mean: ', dead_age_mean)
+    return _data
     
     
 # ----------------------------------- Main function ---------------------------------------
@@ -646,6 +816,7 @@ if __name__ == '__main__':
     y_col = '_DEATH [d from CT]'
 
     print('\n\n')
+
     # CT data
     print('Training with CT data ***********************************************************************************************************')
     ## test classification accuracy (Alive/Dead, Clustering)
@@ -656,19 +827,19 @@ if __name__ == '__main__':
     print('** With augmented data ***********************************************************************************************************')
     Classification(_data, CT_col, y_col)
     #### with bootstrapped data
-    print('** With bootstrapped data ***********************************************************************************************************')
-    Classification(b_data, CT_col, y_col)
+#    print('** With bootstrapped data ***********************************************************************************************************')
+#    Classification(b_data, CT_col, y_col)
 
     # test Clinical outcome accuracy (regressor, classifier + regressor)
     ## with original data
-    #print('** With original data ***********************************************************************************************************')
-    #ClinicalOutcome(data, CT_col, y_col)
+    print('** With original data ***********************************************************************************************************')
+    ClinicalOutcome(data, CT_col, y_col)
     ## with augmented data
     print('** With augmented data ***********************************************************************************************************')
     ClinicalOutcome(_data, CT_col, y_col)
     ## with bootstrapped data
-    print('** With augmented data ***********************************************************************************************************')
-    ClinicalOutcome(b_data, CT_col, y_col)
+#    print('** With bootstrapped data ***********************************************************************************************************')
+#    ClinicalOutcome(b_data, CT_col, y_col)
 
 
 
@@ -676,24 +847,36 @@ if __name__ == '__main__':
     print('Training with Clinical + CT data ***********************************************************************************************************')
     ## test classification accuracy (Alive/Dead, Clustering)
     #### with original data
-#    print('** With original data ***********************************************************************************************************')
-#    Classification(data, CT_clinical_col, y_col)
+    print('** With original data ***********************************************************************************************************')
+    Classification(data, CT_clinical_col, y_col)
     #### with augmented data
-#    print('** With augmented data ***********************************************************************************************************')
-#    Classification(_data, CT_clinical_col, y_col)
+    print('** With augmented data ***********************************************************************************************************')
+    Classification(_data, CT_clinical_col, y_col)
 
     # test Clinical outcome accuracy (regressor, classifier + regressor)
     ## with original data
-    #print('** With original data ***********************************************************************************************************')
-    #ClinicalOutcome(data, CT_clinical_col, y_col)
+    print('** With original data ***********************************************************************************************************')
+    ClinicalOutcome(data, CT_clinical_col, y_col)
     ## with augmented data
-    #print('** With augmented data ***********************************************************************************************************')
-    #ClinicalOutcome(_data, CT_clinical_col, y_col)
-    
+    print('** With augmented data ***********************************************************************************************************')
+    ClinicalOutcome(_data, CT_clinical_col, y_col)
+    """
 
-    
+
     # test Biological age
-    # TODO: not completed yet!!
-#    BiologicalAge(data, CT_col, y_col)   
-    
+    stat_table = pd.read_csv('data/ssa_life_expectancy.csv')
+    bio_col = 'Biological Age'
+    print('** With original data ***********************************************************************************************************')
+    bio_data = filterDead(data)
+    bio_data = setBiologicalAge(bio_data, bio_col, stat_table)
+    BiologicalAge(bio_data, CT_col, bio_col)
+    print('** With augmented data ***********************************************************************************************************')
+    _bio_data = filterDead(_data)
+    _bio_data = setBiologicalAge(_bio_data, bio_col, stat_table)
+    BiologicalAge(_bio_data, CT_col, bio_col)
+    print('** With bootstrapped data ***********************************************************************************************************')
+    b_bio_data = filterDead(b_data)
+    b_bio_data = setBiologicalAge(b_bio_data, bio_col, stat_table)
+    BiologicalAge(b_bio_data, CT_col, bio_col)
+    """
 
