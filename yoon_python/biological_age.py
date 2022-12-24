@@ -20,7 +20,7 @@ from sklearn import preprocessing
 import group_knn
 
 def Bio_answer(_data) :
-    #3년 내에 죽을사람 제거 (죽을 사람==1)
+    # excluding someone who dided in 3yrs ('_death_in_3yr'==1)
     valid_data = _data[_data['_death_in_3yr']==0]
     valid_data.reset_index(drop=True, inplace=True)
     valid_data = valid_data.groupby(['I_age'],as_index=False).mean()
@@ -61,8 +61,8 @@ if __name__ == '__main__':
     # #모델 생성
     # # 1단계 단순모델로 맞춰보기
     #model = KNeighborsRegressor(n_neighbors=5) #3년 28.5% 5년 40%
-    model = GaussianNB() # 1년 -42%, 2년 - 45%, 3년 51%, 5년 -60%
-    #model = MLPRegressor(hidden_layer_sizes=(10,15,3), activation='relu',learning_rate_init=0.001, solver='adam', max_iter=5000) # 3년 27%, 5년 39%
+    #model = GaussianNB() # 1년 -42%, 2년 - 45%, 3년 51%, 5년 -60%
+    model = MLPRegressor(hidden_layer_sizes=(10,15,3), activation='relu',learning_rate_init=0.001, solver='adam', max_iter=5000) # 3년 27%, 5년 39%
 
     scaler = preprocessing.StandardScaler().fit(_x)
 
@@ -72,12 +72,12 @@ if __name__ == '__main__':
     test_x_scaled = scaler.transform(test_x)
     Y_pred = model.predict(test_x_scaled)
 
-    count=0
-    for i in range(0,len(Y_pred)) :
-        if abs(Y_pred[i]-y_test[i])<=3 :
-            count+=1
+    # count=0
+    # for i in range(0,len(Y_pred)) :
+    #     if abs(Y_pred[i]-y_test[i])<=3 :
+    #         count+=1
 
-    print("1단계 {} : {:.2f}%".format(model, count/len(Y_pred)*100))
+    # print("1단계 {} : {:.2f}%".format(model, count/len(Y_pred)*100))
 
     #2단계 클러스터 2개 그룹 해보기
 
@@ -148,10 +148,13 @@ if __name__ == '__main__':
 
     #model_one = KNeighborsRegressor(n_neighbors=5) #3년 28.5% 5년 40%
     #model_two = KNeighborsRegressor(n_neighbors=5) #3년 28.5% 5년 40%
-    model_one = GaussianNB() # 1년 -42%, 2년 - 45%, 3년 51%, 5년 -60%
-    model_two = GaussianNB()
+    #model_one = GaussianNB() # 1년 -42%, 2년 - 45%, 3년 51%, 5년 -60%
+    #model_two = GaussianNB()
     #model_one = MLPRegressor(hidden_layer_sizes=(20), activation='relu',learning_rate_init=0.001, solver='adam', max_iter=5000) # 3년 27%, 5년 39%
     #model_two = MLPRegressor(hidden_layer_sizes=(20), activation='relu',learning_rate_init=0.001, solver='adam', max_iter=5000) # 3년 27%, 5년 39%
+    model_one =MLPRegressor(hidden_layer_sizes=(20, 20, 20), max_iter=10000)
+    model_two =MLPRegressor(hidden_layer_sizes=(20, 20, 20), max_iter=10000)
+
 
     scaler_one = preprocessing.StandardScaler().fit(GF_x_one)
     X_scaled_one = scaler_one.transform(GF_x_one)
@@ -167,9 +170,10 @@ if __name__ == '__main__':
     Y_pred_one = model_one.predict(test_x)
     Y_pred_two = model_two.predict(test_x)
     
-    #y_test_numpy=y_test.to_numpy()
-    #k_=np.concatenate([y_test_numpy,Predict_value])
+    y_test_numpy=y_test.to_numpy()
+    k_=np.concatenate([y_test_numpy,Predict_value])
     #print(k_)
+
     
     count=0
     for i in range(0,len(Y_pred_one)) :
@@ -180,4 +184,4 @@ if __name__ == '__main__':
            if abs(Y_pred_one[i]-y_test[i])<=3 :
                count+=1
 
-    print("2 단계 {} : {:.2f}%".format(model_one, count/len(Y_pred_one)*100))
+    print("2 step {} : {:.2f}%".format(model_one, count/len(Y_pred_one)*100))
