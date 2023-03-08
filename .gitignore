@@ -1,7 +1,9 @@
 #Specific file
 ~$4_final_ppt.pptx
 ~$data FRX 전처리.xlsx
+.DS_Store
 
 
 #Folder
 __pycache__/
+.vscode/
