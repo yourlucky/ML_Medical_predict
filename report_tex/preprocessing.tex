@@ -1,0 +1,40 @@
+\section{Data Preprocessing}
+\label{sec:preprocessing}
+
+In this section, we discuss our strategies for data preprocessing.
+First, we analyze the columns that contain missing or ambiguous values, and fill out or reinterpret those values with various approaches such as estimating them with regressions and smoothing them out with mean values to minimize unnecessary data drops.
+We break down the data into three categories; clinical data, clinical outcome, and CT data.
+
+\subsection{Clinical Data}
+We run regressions to estimate the missing values in those columns that have real values, i.e., FRS 10-year risk (\%), FRAX 10y Fx Prob (Orange-w/ DXA), and FRAX 10y Hip Fx Prob (Orange-w/ DXA). 
+For the fairness of prediction, the missing value of the clinical data is predicted by only other existing clinical data. i.e. FRS 10-year risk = 5.038(Sex)+1.949(tobaco)+0.29(age) 
+%상세 회귀식에 대한 R결과표는 호근이의 선택
+
+We put additional categories for those columns that have categorical values, i.e., BMI, Tobacco, and Met Sx. For Alcohol abuse, we reinterpret the values into a binary variable as missing values dominate, and the occasionally observed abuse behavior is excessively fragmented. 
+    
+Finally, we exclude highly correlated columns to minimize regression analysis errors. We use both clinical and CT data to analyze correlation between columns.
+Among the candidates, BMI and Total Body form high correlation with value of 0.88.
+Therefore, we remove Total Body in our dataset.
+    % 상관관계 표는 호근이 선택 근데 얘는 너무 커서 안예쁨
+
+\subsection{Clinical Outcome}
+The majority of values in clinical outcomes are missing.
+As the ratio of the missing data and the given ones is highly skewed to the former, we cannot estimate missing values based on the latter.
+Therefore, we narrow down our focus to specific columns, i.e., Death $[$d from CT$]$, Heart Failure DX, and Type 2 Diabetes.
+
+First, we install an additional binary column that classifies death based on the existence of the values in column Death $[$d from CT$]$.
+Then, we fill in the missing values in the column with the average life expectancy of each person based on one's age and sex~\cite{lifetable}.
+
+We also create binary columns for columns Heart Failure DX and Type 2 Diabetes, and further create their categorical columns for which value maps to each disease behavior.
+
+
+\subsection{CT Data}
+
+We also exclude specific columns in CT data which are highly correlated with another columns as done in clinical data.
+We remove VAT in our dataset as it is highly correlated with Total Body (0.88), and Muscle are as it is highly correlated with L3 SMI (0.89).
+
+
+%We exclude specific columns as a parameter candidates for regression models. That is, those parameters that are strongly correlated with another parameters are likely to make model prediction error.
+%Table~\ref{tab:correlation} denotes the analysis of correlation summary of \hcha{???} column.
+%We remove TAT as it is strongly correlated with Total Body(0.88). We also remove Muscle Area since it is strongly correlated with L3 SMI(0.89).
+%\hcha{correlation}

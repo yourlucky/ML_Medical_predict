@@ -1,0 +1,58 @@
+\section{Biological Age}
+\label{sec:bio}
+In this section, we define our biological age, introduce its observation, and verify the biological age using the definition and observation. We define $AGE$ as the random variable for age and $BAGE$ as the random variable for our biological age. We also define $EXP$ as the random variable for life expectancy, which can be obtained by dividing predicted Death $[$d from CT$]$ by $365$.
+
+\subsection{Definition and Observation}
+We define $BAGE$ as follows:
+\begin{definition}
+$BAGE = AGE + \mathbb{E}\left(EXP | AGE\right) - EXP.$
+\end{definition}
+A person's $BAGE$ is same as the person's age under the assumption that the person will die when the person's age is $AGE + \mathbb{E}\left(EXP | AGE\right)$. As we will prove, $\mathbb{E}\left(BAGE | AGE\right) = AGE$. From this fact, we observe that $BAGE$ of a person with average CT data of healthy people with age $a$ is $a$.
+
+\subsection{Verification Using Definition}
+We define $X$ as $BAGE - AGE$, $\sigma$ as the standard deviation of $X$, which is unknown, $N$ as the number of our data, which is $8877$, $\bar{X}$ as the sample mean of $X$ for $N$ data, and $\hat{\bar{X}}$ as the mean of $X$ for our data. By the definition of $BAGE$, $X = \mathbb{E}\left(EXP | AGE\right) - EXP$. Taking mean on people with age $AGE$, we can get the following equality:
+\begin{align*}
+\mathbb{E}\left(X | AGE\right) &= \mathbb{E}\left(EXP | AGE\right) - \mathbb{E}\left(EXP | AGE\right)\\
+&= 0.
+\end{align*}
+By central limit theorem, we can get the following information on the distribution of $\bar{X}$:
+$$
+\bar{X} \xrightarrow[]{d} \mathcal{N}\left(0, \frac{\sigma^2}{N}\right).
+$$
+To determine whether our biological age is valid, we define the following two hypotheses and select one hypothesis between the two:
+%decide one hypothesis between those hypotheses:
+\begin{gather*}
+H_0: \hat{\bar{X}} \sim \mathcal{N}\left(\mu, \frac{\sigma^2}{N}\right), \mu = 0,\\
+H_1: \hat{\bar{X}} \sim \mathcal{N}\left(\mu, \frac{\sigma^2}{N}\right), \mu \ne 0.
+\end{gather*}
+We use the following generalized likelihood ratio test where $\Phi_\chi$ is the tail function of $\chi^2$ distribution:
+\begin{gather*}
+\frac{\max\left\{\mathbb{P}\left(\hat{\bar{X}} | \mu\right): \mu \ne 0\right\}}{\mathbb{P}\left(\hat{\bar{X}} | \mu = 0\right)} \underset{H_0}{\overset{H_1}{\gtrless}} e^{\frac{1}{2} \Phi_\chi^{-1}\left(0.05\right)}.
+\end{gather*}
+Computing the left hand side of the above inequality, we can rewrite the test as follows:
+\begin{gather*}
+\left(\frac{\hat{\bar{X}}}{\frac{\sigma}{\sqrt{N}}}\right)^2 \underset{H_0}{\overset{H_1}{\gtrless}} \Phi_\chi^{-1}\left(0.05\right).
+\end{gather*}
+$\hat{\bar{X}} = 57.41 - 56.91 = 0.5$, and $N = 8877$. Hence, $\left(\frac{\hat{\bar{X}}}{\frac{\sigma}{\sqrt{N}}}\right)^2 \le \Phi_\chi^{-1}\left(0.05\right)$ if and only if $\sigma \ge 24.04$. Considering the definition for $X$, $24.04$ is relatively high value as $\sigma$, but it is reasonable that $\sigma = 24.04$, so we conclude that our biological age is fairly valid using the definition for our biological age.
+
+\subsection{Verification Using Observation}
+As we create models predicting clinical outcome using CT data, we can also create models predicting biological age using CT data. Based on the observation for our biological age, we guess that predicted biological age of a person with average CT data of healthy people with age $a$ is near to $a$. For this reason, we also verify our biological age using the models predicting biological age using CT data.
+
+We create 2 models predicting biological age using CT data using the methodology of the models predicting clinical outcome using CT data. The first model is the model predicting biological age using regression. The second model is the model classifying data as data in old group and data in young group and predicting biological age using regression for each group. We use KNeighborsRegressor, MLPRegressor, and GaussianNB in scikit-learn as our regressors. Biological age can be considered as discrete variable, so we use GaussianNB as one of regressors. We use KNeighborsClassifier, MLPClassifier, and GaussianNB in scikit-learn as our classifiers. We only provide the results for KNeighborsClassifier because classifiers have almost no effect on the accuracy of the models.
+
+We use all the tuples in CT data for training our models. The test data are the average CT data of healthy people with age $a$ for all $a$. We define a healthy person as a person who is predicted to live after 3 years, so we exclude data who are predicted to die in 3 years when we make test data. We consider prediction is correct if the difference of predicted biological age and age is not bigger than 3 years. We believe that predicting precise biological age is as hard as predicting precise death dates, and if the models are correct, and our biological age is valid, predicted biological age is near from age for test data, so we define correct prediction in this way.
+
+Table~\ref{tab:bio} shows the prediction accuracy of the models for the case that regressor is KNeighborsRegressor, MLPRegressor, and GaussianNB, and classifier is KNeighborsClassifier. Accuracy of the second model is higher than that of the first model, accuracy of the model with GaussianNB regressor is higher than that of the models with the other regressors, and the highest accuracy is attained as 63.64\%. This accuracy is fairly high, so we conclude that our biological age is fairly valid using the observation for our biological age.
+
+\begin{table}[!h]
+    \centering
+    \caption{Accuracy of models predicting biological age}
+    \begin{tabular}{l||c|c|c}
+        \toprule[0.8pt]
+         \textbf{Models} & \textbf{KNN regression} & \textbf{Neural network} & \textbf{Gaussian naive Bayes}\\\hline
+         Regression & 27.27\% & 25.45\% & 50.91\%\\
+         Classification and regression & 30.91\% & 29.09\% & 63.64\%\\
+        \bottomrule[0.8pt]
+    \end{tabular}
+    \label{tab:bio}
+\end{table}

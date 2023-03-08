@@ -1,0 +1,91 @@
+\documentclass{article}
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\evensidemargin}{-0.25 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+% ===== PACKAGES =====
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{changepage}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\usepackage{subfigure}
+
+\newmdenv[
+  topline=false,
+  bottomline=false,
+  skipabove=\topsep,
+  skipbelow=\topsep
+]{siderules}
+\renewcommand{\abstractname}{}
+
+\newtheorem{definition}{Definition}
+
+% ===== VARIABLES =====
+\def \R{\mathbb{R}}
+\def \Pr{\mathbb{P}}
+\def \D{{\rm D}}
+\def \N{{\rm N}}
+\def \xx{{\boldsymbol{\rm x}}}
+\def \y{{\rm y}}
+
+% ===== HEADER BOX =====
+\newcommand{\lecture}[2]{
+\pagestyle{myheadings}
+\thispagestyle{plain}
+\newpage
+\noindent
+\begin{center}
+\rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} % Thick horizontal line
+\rule{\textwidth}{0.4pt}\\[1\baselineskip] % Thin horizontal line
+\vbox{\vspace{2mm}
+\hbox to 6.28in { {\bf CS 760: Machine Learning} \hfill Spring 2022 }
+\vspace{4mm}
+\hbox to 6.28in { {\Large \hfill #1  \hfill} }
+\vspace{4mm}
+\hbox to 6.28in { {\scshape Authors:}  #2 \hfill }}
+\vspace{-2mm}
+\rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} % Thin horizontal line
+\rule{\textwidth}{1.6pt}\\[\baselineskip] % Thick horizontal line
+\end{center}
+\vspace*{4mm}
+}
+
+\definecolor{caribbeangreen}{rgb}{0.0, 0.8, 0.6}
+\newcommand{\hcha}[1]{\textbf{\color{blue}C: #1}}
+\newcommand{\yoon}[1]{\textbf{\color{orange}Y: #1}}
+\newcommand{\wkim}[1]{{\color{red}K: #1}}
+
+% =============== DOCUMENT ===============
+\begin{document}
+\lecture{Prediction of Clinical Outcomes and Biological Age}{Hokeun Cha, Woojin Kim, YoonChae Na}\hfill
+
+\begin{center}
+{\Large {\sf \underline{\textbf{DO NOT POLLUTE!}} AVOID PRINTING, OR PRINT 2-SIDED MULTIPAGE.}}
+\end{center}
+
+\input{abstract}
+\input{intro}
+\input{related}
+\input{preprocessing}
+%HK :호근 : 큰틀에 잡고,채우기 regression 로직 칸 생성
+%윤채 : 호근 요청내용 채우기
+\input{outcome} %: x/y/prediction model 설명(step 1, 2, 3(problem + solution))/accuracy 측정 방법/prediction model 결과
+\input{bio}
+\input{conclusion}
+
+\bibliographystyle{abbrvurl}
+\bibliography{bib.bib}
+
+\end{document}

@@ -1,0 +1,38 @@
+\section{Introduction}
+\label{sec:intro}
+
+Machine learning has brought much convenience to our life by making useful predictions and observations by learning data.
+It is one of the fastest growing area in artificial intelligence research.
+Thus, it is gaining a lot of attention and interests from various fields such as biomedics, statistics, and mathematics due to its broad utilizability.
+
+Such advancement in machine learning technologies has gathered people's attention to their health conditions.
+There are many methods to see the health of a person, and opportunistic cardiometabolic screening is one of them.
+%Nowadays, health is one of the most important issues for people. There are several ways to see how healthy a person is, and opportunistic cardiometabolic screening is one of the methods. 
+That is, people can measure their CT data such as muscle area and clinical data such as BMI.
+Among various clinical outcomes, the most important one is an individual's life expectancy, which is usually derived by other outcomes such as developing cancers or diabetes.
+
+%Among various clinical outcomes, developing diseases 
+%There are various clinical outcomes that implies unhealthiness of people such as developing diabetes and cancers. 
+%Among these clinical outcomes, the most important one is an individual's life expectancy.
+%when they will die. In usual, such clinical outcomes are critical to people, so people want to predict those outcomes.
+
+Biological age is another useful indicator to predict one's life expectancy.
+It represents how old an individual's body is, while chronological age simply means how old an individual is.
+Biological age is strongly related to the life expectancy as it can summarize general health condition.
+%Biological age is a useful indicator to predict when a person will die. Biological age means how old a person's body is, so it is strongly related to how long a person lives. For this reason, people also want to measure biological age.
+
+In this project, we predict clinical outcomes using CT data and clinical data by using three models, and derive our biological age. We used opportunistic screening dataset made by Perry Pickhardt, a professor of department of radiology at University of Wisconsin-Madison. 
+We focus on three goals throughout the paper:
+\begin{itemize}[leftmargin=*]
+\item Make prediction of clinical outcomes using CT data.
+\item Measure how our prediction is improved when utilizing clinical data in addition to CT data.
+\item Derive and verify our biological age definition.
+\end{itemize}
+%The first goal of this project is making prediction of clinical outcomes using CT data. The second goal of this project is measuring how our prediction is improved when we use clinical data in addition to CT data. The third goal of this project is deriving our own biological age. 
+
+The paper is organized as follows.
+Section~\ref{sec:related} reviews related work.
+We discuss our strategies for data preprocessing in Section~\ref{sec:preprocessing}.
+We present our comprehensive modeling approaches and prediction evaluation results for clinical outcomes in Section~\ref{sec:outcome}.
+Section~\ref{sec:bio} describes and verifies our definition of biological age, and presents its prediction evaluation.
+Section~\ref{sec:conclusion} concludes our paper.
